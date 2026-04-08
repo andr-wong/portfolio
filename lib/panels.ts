@@ -1,11 +1,16 @@
 import type { PanelData } from '@/types/panel'
 
+// All panels share the same orbitSpeed so the angular gap between them
+// (set by orbitOffset) is preserved permanently. Different speeds cause
+// panels to drift into clusters over time.
+const ORBIT_SPEED = 0.15
+
 export const PANELS: PanelData[] = [
   {
     id: 'projects',
     label: 'Projects',
     orbitRadius: 3.2,
-    orbitSpeed: 0.18,
+    orbitSpeed: ORBIT_SPEED,
     orbitOffset: 0,
     orbitInclination: 0.1,
     content: 'projects',
@@ -14,7 +19,7 @@ export const PANELS: PanelData[] = [
     id: 'about',
     label: 'About',
     orbitRadius: 3.2,
-    orbitSpeed: 0.15,
+    orbitSpeed: ORBIT_SPEED,
     orbitOffset: Math.PI / 3,
     orbitInclination: -0.15,
     content: 'about',
@@ -23,7 +28,7 @@ export const PANELS: PanelData[] = [
     id: 'skills',
     label: 'Skills',
     orbitRadius: 3.4,
-    orbitSpeed: 0.12,
+    orbitSpeed: ORBIT_SPEED,
     orbitOffset: (2 * Math.PI) / 3,
     orbitInclination: 0.2,
     content: 'skills',
@@ -32,7 +37,7 @@ export const PANELS: PanelData[] = [
     id: 'contact',
     label: 'Contact',
     orbitRadius: 3.2,
-    orbitSpeed: 0.2,
+    orbitSpeed: ORBIT_SPEED,
     orbitOffset: Math.PI,
     orbitInclination: -0.1,
     content: 'contact',
@@ -41,7 +46,7 @@ export const PANELS: PanelData[] = [
     id: 'featured-a',
     label: 'Featured',
     orbitRadius: 3.5,
-    orbitSpeed: 0.16,
+    orbitSpeed: ORBIT_SPEED,
     orbitOffset: (4 * Math.PI) / 3,
     orbitInclination: 0.25,
     content: 'featured-a',
@@ -50,7 +55,7 @@ export const PANELS: PanelData[] = [
     id: 'featured-b',
     label: 'Featured II',
     orbitRadius: 3.3,
-    orbitSpeed: 0.14,
+    orbitSpeed: ORBIT_SPEED,
     orbitOffset: (5 * Math.PI) / 3,
     orbitInclination: -0.2,
     content: 'featured-b',
