@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import { Suspense } from 'react'
 import { Vector3 } from 'three'
 import NebulaBackground from './NebulaBackground'
@@ -52,6 +53,18 @@ function SceneContents({
 
   return (
     <>
+      {/* Drag-to-rotate — disabled while a panel modal is open */}
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.08}
+        enabled={activePanelId === null}
+        // Clamp vertical rotation so the scene can't be flipped upside-down
+        minPolarAngle={Math.PI * 0.15}
+        maxPolarAngle={Math.PI * 0.85}
+      />
+
       {/* Lighting — no expensive Environment HDR map */}
       <ambientLight intensity={0.25} color="#0A1628" />
       <pointLight position={[5, 5, 5]} intensity={0.4} color="#7CFFD4" />
