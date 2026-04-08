@@ -3,7 +3,7 @@
 const STATUS_LINES = [
   { label: 'SYS', value: 'ONLINE' },
   { label: 'AI', value: 'ACTIVE' },
-  { label: 'VERSION', value: '2025.1' },
+  { label: 'VERSION', value: '2026.1' },
   { label: 'MODE', value: 'OBSERVATORY' },
 ]
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, JetBrains_Mono, Inter } from 'next/font/google'
+import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
 const spaceGrotesk = Space_Grotesk({
@@ -10,12 +10,6 @@ const spaceGrotesk = Space_Grotesk({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
-  subsets: ['latin'],
-  display: 'swap',
-})
-
-const inter = Inter({
-  variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
 })
@@ -43,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="h-full scanlines">
         <a href="#main-content" className="skip-link">
