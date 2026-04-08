@@ -14,6 +14,7 @@ import PanelModal from './PanelModal'
 import HudOverlay from '@/components/hud/HudOverlay'
 import Nameplate from '@/components/hud/Nameplate'
 import CustomCursor from '@/components/hud/CustomCursor'
+import LoadingScreen from '@/components/hud/LoadingScreen'
 import { useLoadSequence } from '@/components/LoadSequence'
 import { useObservatoryCamera } from '@/hooks/useObservatoryCamera'
 import { PANELS } from '@/lib/panels'
@@ -157,6 +158,7 @@ export default function ObservatoryScene({
         onClose={handleReset}
       />
       <CustomCursor panel3DHovered={panel3DHovered} />
+      <LoadingScreen done={loadState.splashDone} />
     </div>
   )
 }

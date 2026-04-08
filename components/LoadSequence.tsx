@@ -19,6 +19,7 @@ interface LoadState {
   hudVisible: boolean
   nameplateVisible: boolean
   nameplateFullOpacity: boolean
+  splashDone: boolean
 }
 
 const TIMINGS: Array<{ delay: number; state: Partial<LoadState> }> = [
@@ -26,6 +27,8 @@ const TIMINGS: Array<{ delay: number; state: Partial<LoadState> }> = [
   { delay: 800,  state: { stage: 'blobs' } },
   { delay: 1200, state: { stage: 'core' } },
   { delay: 1800, state: { stage: 'panels' } },
+  // Dismiss the splash after panels have had time to reach their orbit positions
+  { delay: 2200, state: { splashDone: true } },
   { delay: 2500, state: { stage: 'hud', hudVisible: true } },
   { delay: 3000, state: { stage: 'name', nameplateVisible: true, nameplateFullOpacity: true } },
   { delay: 3500, state: { stage: 'subtitle' } },
@@ -39,6 +42,7 @@ export function useLoadSequence(prefersReducedMotion: boolean): LoadState {
     hudVisible: false,
     nameplateVisible: false,
     nameplateFullOpacity: false,
+    splashDone: false,
   })
 
   useEffect(() => {
@@ -50,6 +54,7 @@ export function useLoadSequence(prefersReducedMotion: boolean): LoadState {
         hudVisible: true,
         nameplateVisible: true,
         nameplateFullOpacity: true,
+        splashDone: true,
       })
       return
     }
