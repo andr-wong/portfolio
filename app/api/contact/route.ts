@@ -1,0 +1,111 @@
+import { type NextRequest, NextResponse } from 'next/server'
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const MAX_MESSAGE_LENGTH = 2000
+
+// Simple in-memory rate limiter (resets on deploy/cold start)
+const requestCounts = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT = 5
+const RATE_WINDOW_MS = 60 * 60 * 1000 // 1 hour
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = requestCounts.get(ip)
+
+  if (!entry || entry.resetAt < now) {
+    requestCounts.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
+    return false
+  }
+
+  if (entry.count >= RATE_LIMIT) return true
+
+  entry.count++
+  return false
+}
+
+interface ContactBody {
+  name: unknown
+  email: unknown
+  message: unknown
+}
+
+export async function POST(req: NextRequest) {
+  // CSRF: check referer matches our origin
+  const origin = process.env.NEXT_PUBLIC_SITE_URL
+  const referer = req.headers.get('referer') ?? ''
+  if (origin && !referer.startsWith(origin)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  // Rate limit by IP
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1'
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please wait before trying again.' },
+      { status: 429 }
+    )
+  }
+
+  let body: ContactBody
+  try {
+    body = await req.json() as ContactBody
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+  }
+
+  const { name, email, message } = body
+
+  if (typeof name !== 'string' || name.trim().length < 1) {
+    return NextResponse.json({ error: 'Name is required' }, { status: 400 })
+  }
+  if (typeof email !== 'string' || !EMAIL_REGEX.test(email)) {
+    return NextResponse.json(
+      { error: 'A valid email address is required' },
+      { status: 400 }
+    )
+  }
+  if (typeof message !== 'string' || message.trim().length < 1) {
+    return NextResponse.json({ error: 'Message is required' }, { status: 400 })
+  }
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    return NextResponse.json(
+      { error: `Message must be under ${MAX_MESSAGE_LENGTH} characters` },
+      { status: 400 }
+    )
+  }
+
+  // Send via Resend
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    console.error('RESEND_API_KEY not configured')
+    return NextResponse.json(
+      { error: 'Server configuration error. Please email directly.' },
+      { status: 500 }
+    )
+  }
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Portfolio Contact <contact@andrwong.dev>',
+      to: ['andrew@andrwong.dev'],
+      subject: `Portfolio contact from ${name.trim()}`,
+      text: `Name: ${name.trim()}\nEmail: ${email}\n\n${message.trim()}`,
+    }),
+  })
+
+  if (!res.ok) {
+    console.error('Resend error:', res.status, await res.text())
+    return NextResponse.json(
+      { error: 'Failed to send. Please try again.' },
+      { status: 502 }
+    )
+  }
+
+  return NextResponse.json({ ok: true })
+}

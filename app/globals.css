@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ── Observatory design tokens ── */
+:root {
+  --observatory-void: #03020A;
+  --observatory-nebula-purple: #1A0533;
+  --observatory-nebula-blue: #0A1628;
+  --observatory-mint: #7CFFD4;
+  --observatory-violet: #C084FC;
+  --observatory-ice: #38BDF8;
+  --observatory-text: #F0F4FF;
+  --observatory-muted: #94A3B8;
+}
+
+@theme inline {
+  --color-void: var(--observatory-void);
+  --color-nebula-purple: var(--observatory-nebula-purple);
+  --color-nebula-blue: var(--observatory-nebula-blue);
+  --color-mint: var(--observatory-mint);
+  --color-violet: var(--observatory-violet);
+  --color-ice: var(--observatory-ice);
+  --color-obs-text: var(--observatory-text);
+  --color-obs-muted: var(--observatory-muted);
+
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* ── Base ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--observatory-void);
+  color: var(--observatory-text);
+  cursor: none;
+}
+
+/* ── Scanline overlay ── */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.05) 2px,
+    rgba(0, 0, 0, 0.05) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: 2px solid var(--observatory-mint);
+  outline-offset: 3px;
+}
+
+/* ── Skip link (accessibility) ── */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--observatory-mint);
+  color: var(--observatory-void);
+  padding: 8px 16px;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 14px;
+  z-index: 10000;
+}
+.skip-link:focus {
+  top: 0;
+}

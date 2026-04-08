@@ -1,0 +1,58 @@
+import type { PanelData } from '@/types/panel'
+
+export const PANELS: PanelData[] = [
+  {
+    id: 'projects',
+    label: 'Projects',
+    orbitRadius: 3.2,
+    orbitSpeed: 0.18,
+    orbitOffset: 0,
+    orbitInclination: 0.1,
+    content: 'projects',
+  },
+  {
+    id: 'about',
+    label: 'About',
+    orbitRadius: 3.2,
+    orbitSpeed: 0.15,
+    orbitOffset: Math.PI / 3,
+    orbitInclination: -0.15,
+    content: 'about',
+  },
+  {
+    id: 'skills',
+    label: 'Skills',
+    orbitRadius: 3.4,
+    orbitSpeed: 0.12,
+    orbitOffset: (2 * Math.PI) / 3,
+    orbitInclination: 0.2,
+    content: 'skills',
+  },
+  {
+    id: 'contact',
+    label: 'Contact',
+    orbitRadius: 3.2,
+    orbitSpeed: 0.2,
+    orbitOffset: Math.PI,
+    orbitInclination: -0.1,
+    content: 'contact',
+  },
+  {
+    id: 'featured-a',
+    label: 'Featured',
+    orbitRadius: 3.5,
+    orbitSpeed: 0.16,
+    orbitOffset: (4 * Math.PI) / 3,
+    orbitInclination: 0.25,
+    content: 'featured-a',
+  },
+  {
+    id: 'featured-b',
+    label: 'Featured II',
+    orbitRadius: 3.3,
+    orbitSpeed: 0.14,
+    orbitOffset: (5 * Math.PI) / 3,
+    orbitInclination: -0.2,
+    content: 'featured-b',
+  },
+]
