@@ -17,17 +17,27 @@ export default function AboutPanel() {
           marginBottom: '16px',
         }}
       >
-        {/* Avatar placeholder */}
+        {/* Avatar — replace with <img> once you have a headshot */}
         <div
           style={{
             width: 56,
             height: 56,
             borderRadius: '50%',
-            background: 'rgba(124,255,212,0.1)',
-            border: '1px solid rgba(124,255,212,0.3)',
+            background: 'rgba(124,255,212,0.12)',
+            border: '1px solid rgba(124,255,212,0.35)',
             flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'var(--font-space-grotesk), sans-serif',
+            fontSize: '16px',
+            fontWeight: 600,
+            color: '#7CFFD4',
+            letterSpacing: '0.02em',
           }}
-        />
+        >
+          AW
+        </div>
         <div>
           <p
             style={{

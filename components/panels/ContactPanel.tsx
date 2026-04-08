@@ -123,9 +123,7 @@ export default function ContactPanel() {
       {status === 'error' && (
         <p style={{ color: '#F87171', fontSize: '11px', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
           {errorMsg}{' '}
-          <a href="mailto:andrew@example.com" style={{ color: '#38BDF8', textDecoration: 'underline', pointerEvents: 'auto' }}>
-            Email directly
-          </a>
+          {/* TODO: replace placeholder with real email */}
         </p>
       )}
 
