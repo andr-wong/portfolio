@@ -13,8 +13,8 @@ interface OrganicBlobProps {
   speed: number
 }
 
-const NOISE_STRENGTH = 0.35
-const UPDATE_INTERVAL = 0.05  // seconds between noise updates
+const NOISE_STRENGTH = 0.3
+const UPDATE_INTERVAL = 0.06  // ~16fps for blob morphing is plenty
 
 export default function OrganicBlob({
   position,
@@ -25,9 +25,9 @@ export default function OrganicBlob({
   const meshRef = useRef<Mesh>(null)
   const lastUpdateRef = useRef(0)
 
-  // Create a reusable noise3D function and original positions once
   const { noise3D, originalPositions } = useMemo(() => {
-    const geometry = new IcosahedronGeometry(1, 3) // ~160 vertices
+    // Detail 2 = ~40 vertices (was detail 3 = ~160). 4x cheaper.
+    const geometry = new IcosahedronGeometry(1, 2)
     const pos = geometry.attributes.position
     const originals = new Float32Array(pos.array.length)
     originals.set(pos.array)
@@ -39,7 +39,6 @@ export default function OrganicBlob({
     if (!mesh) return
 
     const elapsed = clock.elapsedTime
-    // Throttle: only update geometry every ~50ms
     if (elapsed - lastUpdateRef.current < UPDATE_INTERVAL) return
     lastUpdateRef.current = elapsed
 
@@ -52,15 +51,16 @@ export default function OrganicBlob({
       const oy = originalPositions[i * 3 + 1]
       const oz = originalPositions[i * 3 + 2]
 
-      // Noise displacement along the vertex normal direction
       const n = noise3D(ox + t, oy + t * 0.7, oz + t * 0.5)
       const len = Math.sqrt(ox * ox + oy * oy + oz * oz)
-      const nx = ox / len
-      const ny = oy / len
-      const nz = oz / len
-
       const disp = n * NOISE_STRENGTH
-      pos.setXYZ(i, ox + nx * disp, oy + ny * disp, oz + nz * disp)
+
+      pos.setXYZ(
+        i,
+        ox + (ox / len) * disp,
+        oy + (oy / len) * disp,
+        oz + (oz / len) * disp
+      )
     }
 
     pos.needsUpdate = true
@@ -69,13 +69,14 @@ export default function OrganicBlob({
 
   return (
     <mesh ref={meshRef} position={new Vector3(...position)} scale={scale}>
-      <icosahedronGeometry args={[1, 3]} />
+      <icosahedronGeometry args={[1, 2]} />
       <meshStandardMaterial
         color={color}
         transparent
-        opacity={0.3}
-        roughness={0.8}
-        metalness={0.1}
+        opacity={0.22}
+        roughness={0.9}
+        metalness={0}
+        depthWrite={false}
       />
     </mesh>
   )
