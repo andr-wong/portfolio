@@ -26,7 +26,7 @@ export default function SkillsPanel() {
         <div key={label}>
           <p
             style={{
-              fontSize: '10px',
+              fontSize: '11px',
               color: '#94A3B8',
               fontFamily: 'var(--font-jetbrains-mono), monospace',
               letterSpacing: '0.15em',
@@ -41,7 +41,7 @@ export default function SkillsPanel() {
               <span
                 key={skill}
                 style={{
-                  fontSize: '11px',
+                  fontSize: '12px',
                   color: '#38BDF8',
                   fontFamily: 'var(--font-jetbrains-mono), monospace',
                   border: '1px solid rgba(56,189,248,0.25)',

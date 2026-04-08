@@ -12,7 +12,7 @@ export default function SystemStatus() {
     <div
       style={{
         fontFamily: 'var(--font-jetbrains-mono), monospace',
-        fontSize: '10px',
+        fontSize: '11px',
         color: '#94A3B8',
         letterSpacing: '0.1em',
         lineHeight: 1.8,

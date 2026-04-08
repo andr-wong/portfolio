@@ -183,7 +183,7 @@ function Section({
       <h2
         style={{
           fontFamily: 'var(--font-jetbrains-mono), monospace',
-          fontSize: '11px',
+          fontSize: '12px',
           color: '#7CFFD4',
           letterSpacing: '0.2em',
           textTransform: 'uppercase',

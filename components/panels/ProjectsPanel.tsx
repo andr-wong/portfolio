@@ -60,7 +60,7 @@ export default function ProjectsPanel() {
               <span
                 key={tag}
                 style={{
-                  fontSize: '10px',
+                  fontSize: '11px',
                   color: '#38BDF8',
                   border: '1px solid rgba(56,189,248,0.2)',
                   padding: '2px 6px',

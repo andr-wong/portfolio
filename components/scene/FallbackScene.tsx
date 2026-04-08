@@ -1,8 +1,20 @@
 'use client'
 
-// 2D fallback rendered when WebGL is unavailable or viewport < 768px
+import { useState } from 'react'
+import type { PanelContent } from '@/types/panel'
+import PanelModal from './PanelModal'
 
+const PANELS: { label: string; content: PanelContent }[] = [
+  { label: 'Projects', content: 'projects' },
+  { label: 'About', content: 'about' },
+  { label: 'Skills', content: 'skills' },
+  { label: 'Contact', content: 'contact' },
+]
+
+// 2D fallback rendered when WebGL is unavailable or viewport < 768px
 export default function FallbackScene() {
+  const [activeContent, setActiveContent] = useState<PanelContent | null>(null)
+
   return (
     <div
       className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden"
@@ -10,24 +22,36 @@ export default function FallbackScene() {
     >
       {/* Floating glass panels */}
       <div className="grid gap-4 p-6 w-full max-w-2xl">
-        {['Projects', 'About', 'Skills', 'Contact'].map((label, i) => (
-          <div
+        {PANELS.map(({ label, content }, i) => (
+          <button
             key={label}
-            className="glass-panel p-6 rounded-lg animate-float"
+            onClick={() => setActiveContent(content)}
+            className="glass-panel p-6 rounded-lg animate-float text-left"
             style={{
               backdropFilter: 'blur(12px)',
               background: 'rgba(255,255,255,0.04)',
               border: '1px solid rgba(255,255,255,0.08)',
               animationDelay: `${i * 0.3}s`,
+              cursor: 'pointer',
+              transition: 'border-color 0.2s, background 0.2s',
+              width: '100%',
+            }}
+            onMouseEnter={(e) => {
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(124,255,212,0.3)'
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(124,255,212,0.04)'
+            }}
+            onMouseLeave={(e) => {
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)'
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'
             }}
           >
             <h2
               className="font-mono text-sm"
-              style={{ color: 'var(--observatory-mint)' }}
+              style={{ color: 'var(--observatory-mint)', pointerEvents: 'none' }}
             >
               {label}
             </h2>
-          </div>
+          </button>
         ))}
       </div>
 
@@ -46,6 +70,12 @@ export default function FallbackScene() {
           AI Engineer · Full-Stack Developer · CS Graduate 2025
         </p>
       </div>
+
+      <PanelModal
+        activePanelId={activeContent}
+        panelContent={activeContent}
+        onClose={() => setActiveContent(null)}
+      />
 
       <style jsx>{`
         @keyframes float {

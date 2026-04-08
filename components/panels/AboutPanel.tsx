@@ -51,7 +51,7 @@ export default function AboutPanel() {
           </p>
           <p
             style={{
-              fontSize: '11px',
+              fontSize: '12px',
               color: '#94A3B8',
               fontFamily: 'var(--font-jetbrains-mono), monospace',
             }}
@@ -83,7 +83,7 @@ export default function AboutPanel() {
             target={href.startsWith('http') ? '_blank' : undefined}
             rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
             style={{
-              fontSize: '11px',
+              fontSize: '12px',
               color: '#38BDF8',
               fontFamily: 'var(--font-jetbrains-mono), monospace',
               textDecoration: 'none',
