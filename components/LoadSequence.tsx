@@ -27,11 +27,11 @@ const TIMINGS: Array<{ delay: number; state: Partial<LoadState> }> = [
   { delay: 800,  state: { stage: 'blobs' } },
   { delay: 1200, state: { stage: 'core' } },
   { delay: 1800, state: { stage: 'panels' } },
-  // Dismiss the splash after panels have had time to reach their orbit positions
-  { delay: 2200, state: { splashDone: true } },
   { delay: 2500, state: { stage: 'hud', hudVisible: true } },
   { delay: 3000, state: { stage: 'name', nameplateVisible: true, nameplateFullOpacity: true } },
   { delay: 3500, state: { stage: 'subtitle' } },
+  // Dismiss splash just before orbit starts — scene is fully laid out by now
+  { delay: 3700, state: { splashDone: true } },
   { delay: 4000, state: { stage: 'complete', orbitActive: true } },
 ]
 

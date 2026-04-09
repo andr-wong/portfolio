@@ -14,6 +14,19 @@ interface PanelOrbitProps {
   onHoverChange: (hovered: boolean) => void
 }
 
+// Compute orbit position at a given elapsed time
+function orbitPosition(data: PanelData, t: number, speed: number) {
+  const angle = t * speed + data.orbitOffset
+  return {
+    x: Math.cos(angle) * data.orbitRadius,
+    z: Math.sin(angle) * data.orbitRadius,
+    y:
+      Math.sin(angle + data.orbitOffset) *
+      Math.tan(data.orbitInclination) *
+      data.orbitRadius,
+  }
+}
+
 export default function PanelOrbit({
   data,
   orbitActive,
@@ -31,21 +44,15 @@ export default function PanelOrbit({
     const targetSpeed = isActive ? data.orbitSpeed * 0.2 : data.orbitSpeed
     speedRef.current += (targetSpeed - speedRef.current) * 0.05
 
-    const t = clock.elapsedTime
-    const angle = t * speedRef.current + data.orbitOffset
-
-    const x = Math.cos(angle) * data.orbitRadius
-    const z = Math.sin(angle) * data.orbitRadius
-    const y =
-      Math.sin(angle + data.orbitOffset) *
-      Math.tan(data.orbitInclination) *
-      data.orbitRadius
-
+    const { x, y, z } = orbitPosition(data, clock.elapsedTime, speedRef.current)
     groupRef.current.position.set(x, y, z)
   })
 
+  // Pre-position at t=0 so panels are never at the origin before orbitActive fires
+  const init = orbitPosition(data, 0, data.orbitSpeed)
+
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} position={[init.x, init.y, init.z]}>
       <GlassPanel
         data={data}
         onSelect={onSelect}
