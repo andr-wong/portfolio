@@ -33,7 +33,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <main
       id="main-content"
-      style={{ background: 'var(--observatory-void)', minHeight: '100vh' }}
+      style={{ background: 'var(--bg)', minHeight: '100vh' }}
     >
       <ProjectDetail project={project} />
     </main>
