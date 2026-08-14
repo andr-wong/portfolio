@@ -2500,3 +2500,66 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .mail:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 .bento-bar .seg button:focus-visible,
 .bento-bar .modebtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Contact form modal */
+.contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+.contact-modal {
+  background: var(--tile);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  font-family: var(--fb);
+}
+.contact-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--mute);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.contact-modal-close:hover { color: var(--ink); }
+.contact-modal form { display: flex; flex-direction: column; gap: 6px; }
+.contact-modal .label { margin-top: 12px; }
+.contact-modal input,
+.contact-modal textarea {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--ink);
+  font-family: var(--fb);
+  font-size: 14px;
+  resize: vertical;
+}
+.contact-modal input:focus,
+.contact-modal textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.contact-modal .btn { margin-top: 18px; align-self: flex-start; }
+.contact-modal-error {
+  color: var(--accent);
+  font-size: 13px;
+  margin-top: 8px;
+}
+.contact-modal-success { text-align: center; }
+.contact-modal-success p { margin-bottom: 16px; }

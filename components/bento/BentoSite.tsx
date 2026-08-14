@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BENTO, BENTO_PERSONAL } from './data';
 import { useBentoMotion } from './useBentoMotion';
 import { ParticleTextEffect } from '@/components/ui/particle-text-effect';
 import { PersonalWidget } from './PersonalWidget';
+import ContactForm from './ContactForm';
 
 type Variant = 'daybreak' | 'eclipse';
 type Page = 'work' | 'personal';
@@ -65,6 +66,7 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
   const d = isWork ? BENTO : BENTO_PERSONAL;
   const stats = isWork ? BENTO.stats : BENTO_PERSONAL.stats;
   const { ref, shown, time, counts } = useBentoMotion(stats);
+  const [contactOpen, setContactOpen] = useState(false);
 
   // Eclipse: cursor spotlight tracks across the tall scrollable page
   useEffect(() => {
@@ -130,9 +132,9 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
         <div className="cline">{line}</div>
       </div>
       <div className="cright">
-        <a className="mail" href={`mailto:${contact.email}`}>
-          {contact.email}
-        </a>
+        <button className="mail" onClick={() => setContactOpen(true)}>
+          Send a message
+        </button>
         <div className="socials">
           <a className="soc" href={contact.github} target="_blank" rel="noreferrer" aria-label="GitHub">
             <GithubIcon />
@@ -428,6 +430,7 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
     >
       {variant === 'eclipse' && <div className="spotlight" />}
       {isWork ? renderWork() : renderPersonal()}
+      <ContactForm isOpen={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 }
