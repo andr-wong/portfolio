@@ -14,7 +14,6 @@ export const metadata: Metadata = {
     title: 'Andrew Wong — Software Engineer',
     description:
       'CS student at the University of Adelaide specialising in software engineering and AI.',
-    images: ['/og-image.png'],
   },
 }
 
