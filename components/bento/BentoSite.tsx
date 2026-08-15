@@ -430,7 +430,7 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
     >
       {variant === 'eclipse' && <div className="spotlight" />}
       {isWork ? renderWork() : renderPersonal()}
-      <ContactForm isOpen={contactOpen} onClose={() => setContactOpen(false)} variant={variant} />
+      {contactOpen && <ContactForm onClose={() => setContactOpen(false)} variant={variant} />}
     </div>
   );
 }

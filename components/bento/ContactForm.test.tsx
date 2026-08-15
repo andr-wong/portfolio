@@ -2,6 +2,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import ContactForm from './ContactForm'
+import { BENTO } from './data'
 
 afterEach(() => {
   cleanup()
@@ -9,9 +10,10 @@ afterEach(() => {
 })
 
 describe('ContactForm', () => {
-  it('renders nothing when closed', () => {
-    const { container } = render(<ContactForm isOpen={false} onClose={() => {}} />)
-    expect(container).toBeEmptyDOMElement()
+  it('renders the form fields into document.body via portal', () => {
+    render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    expect(document.body.querySelector('.contact-modal')).not.toBeNull()
+    expect(screen.getByLabelText('Name')).toBeInTheDocument()
   })
 
   it('submits the form and shows a success message', async () => {
@@ -19,7 +21,7 @@ describe('ContactForm', () => {
       'fetch',
       vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }))
     )
-    render(<ContactForm isOpen={true} onClose={() => {}} />)
+    render(<ContactForm onClose={() => {}} variant="daybreak" />)
 
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'jane@example.com' } })
@@ -41,7 +43,7 @@ describe('ContactForm', () => {
       'fetch',
       vi.fn(async () => new Response(JSON.stringify({ error: 'Failed to send. Please try again.' }), { status: 502 }))
     )
-    render(<ContactForm isOpen={true} onClose={() => {}} />)
+    render(<ContactForm onClose={() => {}} variant="daybreak" />)
 
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'jane@example.com' } })
@@ -51,7 +53,32 @@ describe('ContactForm', () => {
     await waitFor(() => expect(screen.getByText(/failed to send/i)).toBeInTheDocument())
     expect(screen.getByRole('link', { name: /email me directly/i })).toHaveAttribute(
       'href',
-      'mailto:andrwong101@gmail.com'
+      `mailto:${BENTO.contact.email}`
     )
+  })
+
+  it('closes on Escape', () => {
+    const onClose = vi.fn()
+    render(<ContactForm onClose={onClose} variant="daybreak" />)
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  it('starts with a fresh form on every mount (parent unmounts to reset, per BentoSite)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }))
+    )
+    const { unmount } = render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane' } })
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'jane@example.com' } })
+    fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'Hello there' } })
+    fireEvent.click(screen.getByRole('button', { name: /send$/i }))
+    await waitFor(() => expect(screen.getByText(/message sent/i)).toBeInTheDocument())
+    unmount()
+
+    render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    expect(screen.queryByText(/message sent/i)).toBeNull()
+    expect(screen.getByLabelText('Name')).toHaveValue('')
   })
 })

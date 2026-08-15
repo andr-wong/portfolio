@@ -1,30 +1,40 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { BENTO } from './data';
 
 interface ContactFormProps {
-  isOpen: boolean;
   onClose: () => void;
   variant: 'daybreak' | 'eclipse';
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
-export default function ContactForm({ isOpen, onClose, variant }: ContactFormProps) {
+export default function ContactForm({ onClose, variant }: ContactFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
-  const [mounted, setMounted] = useState(false);
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
-  // document.body only exists client-side; gate the portal target behind mount.
+  // The parent only ever mounts this component after a click, well after
+  // hydration, so document already exists here in practice — this guards
+  // non-browser test/render environments without needing an effect.
+  const canPortal = typeof document !== 'undefined';
+
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (!canPortal) return;
+    nameInputRef.current?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [canPortal, onClose]);
 
-  if (!isOpen || !mounted) return null;
+  if (!canPortal) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +93,7 @@ export default function ContactForm({ isOpen, onClose, variant }: ContactFormPro
               </label>
               <input
                 id="cf-name"
+                ref={nameInputRef}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -113,7 +124,7 @@ export default function ContactForm({ isOpen, onClose, variant }: ContactFormPro
               {status === 'error' && (
                 <p className="contact-modal-error">
                   {error}{' '}
-                  <a href="mailto:andrwong101@gmail.com">Email me directly</a>
+                  <a href={`mailto:${BENTO.contact.email}`}>Email me directly</a>
                 </p>
               )}
               <button className="btn primary" type="submit" disabled={status === 'submitting'}>
