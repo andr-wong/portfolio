@@ -55,7 +55,7 @@ export const BENTO = {
       tag: 'PRJ_001',
       award: '2nd · CSC × UPC 2025',
       name: 'Mapster',
-      desc: 'Single map for everything happening in Adelaide. 100+ events from 6 sources, with OpenAI Vision reading physical posters into structured listings — built in a single hackathon weekend.',
+      desc: "Adelaide's events, pulled onto one map — 100+ listings from six live sources (Eventbrite, Ticketmaster, Adelaide Festival Centre, SA Tourism, and more), deduped against each other so the same gig doesn't show up six times. Also reads paper posters: point OpenAI Vision at a photo of a flyer stapled to a pole, get a structured event out the other end. Built the map, the Ticketmaster integration, and the scraper dedup logic myself, with the HackerCodex team, in one hackathon weekend.",
       stack: ['SvelteKit', 'FastAPI', 'Supabase', 'Mapbox GL', 'OpenAI'],
       url: 'https://mapster.city',
       host: 'mapster.city',
@@ -65,7 +65,7 @@ export const BENTO = {
       tag: 'PRJ_002',
       name: 'Headcount',
       live: true,
-      desc: 'Replaced a manual WhatsApp chain for Sunday attendance at Hope Church Adelaide. Auth, roles, calendar reports. Live in use.',
+      desc: "Two Sunday services, attendance tracked by someone typing it into WhatsApp by hand. Built the app that replaced it — paste-to-import for the exact message formats staff already used, so nobody had to change how they worked. Kept growing since launch: two counters can now see each other's tallies live so nobody double-counts a row, there's a searchable lookup for returning visitors, and pastors get a stats view broken down by week, month, and year.",
       stack: ['Vanilla JS', 'Supabase', 'Edge Fns'],
       url: 'https://headcount.andrwong.com',
       host: 'headcount.andrwong.com',
@@ -74,8 +74,8 @@ export const BENTO = {
     hcf: {
       tag: 'PRJ_003',
       name: 'HCF Router',
-      desc: 'Passenger-to-driver assignment, by hand, automated. Dijkstra routing, address autocomplete, live map.',
-      stack: ['Next.js', 'MapLibre', 'OSRM', 'Supabase'],
+      desc: 'Someone used to sit down every week and manually match passengers to drivers. Now Dijkstra\'s algorithm does it — high-priority passengers seated first, everyone else route-optimised by total distance. Addresses save between runs, groups and destinations are configurable, and the whole thing renders on a live map with autocomplete on the address fields.',
+      stack: ['Next.js', 'MapLibre', 'OSRM', 'Supabase', 'Mapbox Geocoding', 'Zustand'],
     } as ProjectData,
   },
   timeline: [
