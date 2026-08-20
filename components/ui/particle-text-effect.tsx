@@ -143,10 +143,10 @@ export function ParticleTextEffect({
     // Brand-consistent palette so particles always read against the black canvas
     // instead of the fully-random RGB occasionally landing on a near-invisible dark color.
     const PALETTE = [
-      { r: 255, g: 122, b: 61 }, // accent (orange)
-      { r: 255, g: 200, b: 140 }, // warm gold
-      { r: 108, g: 197, b: 240 }, // accent-2 (cool blue)
-      { r: 236, g: 231, b: 223 }, // paper
+      { r: 239, g: 60, b: 60 }, // accent (riso red)
+      { r: 30, g: 75, b: 143 }, // accent-2 (riso blue)
+      { r: 245, g: 244, b: 239 }, // paper
+      { r: 245, g: 244, b: 239 }, // paper (weighted, reads brightest on the black canvas)
     ]
 
     const loadWord = (word: string) => {

@@ -34,7 +34,7 @@
 
 [data-aesthetic="editorial-dark"] {
   --bg: #0e0c08;
-  --bg-elev: #16130d;
+  --bg-elev: #000000;
   --bg-card: #1b1812;
   --line: rgba(255, 235, 200, 0.09);
   --line-strong: rgba(255, 235, 200, 0.18);
@@ -1712,14 +1712,14 @@ body:has(.bento-app)::after { display: none; }
   transition: background 280ms ease-out, color 280ms ease-out;
 }
 .bento-app.light {
-  --paper: #f1ece1; --ink: #16130d; --bar: rgba(244,239,229,0.78);
-  --barline: #e2dccd; --barink: #16130d; --barmute: #7d7565; --accent: #d35f2b;
-  background: #f1ece1;
+  --paper: #f5f4ef; --ink: #1c1b1a; --bar: rgba(245,244,239,0.88);
+  --barline: #1c1b1a; --barink: #1c1b1a; --barmute: #78716c; --accent: #ef3c3c;
+  background: #f5f4ef;
 }
 .bento-app.dark {
-  --paper: #0b0a0c; --ink: #ece7df; --bar: rgba(11,10,12,0.7);
-  --barline: #272231; --barink: #ece7df; --barmute: #8a8278; --accent: #ff7a3d;
-  background: radial-gradient(120% 70% at 12% -6%, rgba(255,122,61,0.08), transparent 55%), #0b0a0c;
+  --paper: #14130f; --ink: #f5f4ef; --bar: rgba(20,19,15,0.85);
+  --barline: #f5f4ef; --barink: #f5f4ef; --barmute: #a39e97; --accent: #ff5b4a;
+  background: #14130f;
 }
 
 /* ambient canvas */
@@ -1802,7 +1802,7 @@ body:has(.bento-app)::after { display: none; }
   .bento-site-wrap .role { max-width: 52ch; }
 }
 @media (max-width: 560px) {
-  .bento-site-wrap .name { font-size: clamp(40px, 13vw, 58px); }
+  .bento-site-wrap .name { font-size: clamp(44px, 15vw, 72px); }
   .bento-site-wrap .stats { flex-wrap: wrap; }
   .bento-site-wrap .stat { flex: 1 0 44%; padding: 14px 16px; }
   .bento-site-wrap .contact { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -1860,7 +1860,7 @@ body:has(.bento-app)::after { display: none; }
   .site-bento .portrait { min-height: 150px; }
 }
 @media (max-width: 600px) {
-  .site-bento .name { font-size: clamp(40px, 13vw, 58px); }
+  .site-bento .name { font-size: clamp(44px, 15vw, 72px); }
   .site-bento .stats { flex-wrap: wrap; }
   .site-bento .stats .stat { flex: 1 0 44%; }
   .site-bento .contact { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -1872,10 +1872,10 @@ body:has(.bento-app)::after { display: none; }
    DAYBREAK — warm paper light theme
    ================================================================ */
 .bento-daybreak {
-  --paper: #f1ece1; --tile: #fbf9f3; --ink: #16130d; --mute: #6f685b; --dim: #a89f8d;
-  --line: #e7e0d1; --accent: #d35f2b; --accent-soft: #f6ddcb; --inktile: #181510;
-  --accent-2: #2f6690; --accent-2-soft: rgba(47,102,144,.22);
-  --fd: 'Space Grotesk', sans-serif; --fb: 'Inter', sans-serif; --fm: 'JetBrains Mono', monospace;
+  --paper: #f5f4ef; --tile: #fbfaf6; --ink: #1c1b1a; --mute: #57534e; --dim: #a39e97;
+  --line: #1c1b1a; --accent: #ef3c3c; --accent-soft: #fbdcd6; --inktile: #1c1b1a;
+  --accent-2: #1e4b8f; --accent-2-soft: rgba(30,75,143,.14);
+  --fd: 'Fraunces', serif; --fb: 'Instrument Sans', sans-serif; --fm: 'JetBrains Mono', monospace;
   height: 100%; width: 100%; background: var(--paper); color: var(--ink);
   font-family: var(--fb); -webkit-font-smoothing: antialiased; box-sizing: border-box;
   padding: 20px; position: relative;
@@ -1906,36 +1906,35 @@ body:has(.bento-app)::after { display: none; }
 .bento-daybreak .t-cont { grid-area: cont; }
 
 .bento-daybreak .tile {
-  background: var(--tile); border: 1px solid var(--line); border-radius: 20px;
+  background: var(--tile); border: 1.5px solid var(--line); border-radius: 12px;
   padding: 22px; position: relative; overflow: hidden;
   display: flex; flex-direction: column;
-  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 10px 26px -20px rgba(40,28,12,.5);
+  box-shadow: 3px 3px 0 rgba(28,27,26,.12);
   opacity: 0; transform: translateY(14px) scale(.99);
-  transition: opacity .6s var(--d, 0ms) ease, transform .65s var(--d, 0ms) cubic-bezier(.22,1,.36,1), box-shadow .4s;
+  transition: opacity .6s var(--d, 0ms) ease, transform .65s var(--d, 0ms) cubic-bezier(.22,1,.36,1), box-shadow .25s ease-out;
 }
 .bento-daybreak.in .tile { opacity: 1; transform: none; }
-.bento-daybreak .tile:hover { transform: translateY(-4px); box-shadow: 0 22px 44px -24px rgba(40,28,12,.55); transition: transform 160ms ease-out, box-shadow 160ms ease-out; }
+.bento-daybreak .tile:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--accent-2); border-color: var(--ink); transition: transform 160ms ease-out, box-shadow 160ms ease-out, border-color 160ms ease-out; }
 @media (prefers-reduced-motion: reduce) {
   .bento-daybreak .tile { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
 /* hero */
 .bento-daybreak .hero {
-  background: var(--inktile); border-color: #241f17; color: #f3eee4; gap: 12px;
+  background: var(--inktile); border-color: #000000; color: #ffffff; gap: 12px;
 }
 .bento-daybreak .hero .ctas { margin-top: auto; }
 .bento-daybreak .hero::before {
   content: '';
-  position: absolute; right: 0; bottom: 0; width: 44%; height: 58%; pointer-events: none;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(211,95,43,.09) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(90deg, rgba(211,95,43,.09) 0 1px, transparent 1px 22px);
-  -webkit-mask-image: linear-gradient(135deg, transparent 22%, rgba(0,0,0,.75));
-  mask-image: linear-gradient(135deg, transparent 22%, rgba(0,0,0,.75));
+  position: absolute; right: 0; bottom: 0; width: 52%; height: 66%; pointer-events: none;
+  background-image: radial-gradient(rgba(239,60,60,.55) 1.6px, transparent 1.6px);
+  background-size: 9px 9px;
+  -webkit-mask-image: linear-gradient(135deg, transparent 18%, rgba(0,0,0,.9));
+  mask-image: linear-gradient(135deg, transparent 18%, rgba(0,0,0,.9));
 }
 .bento-daybreak .hero .sheen {
   position: absolute; inset: -40% -10%;
-  background: radial-gradient(60% 50% at 30% 20%, rgba(211,95,43,.32), transparent 70%);
+  background: radial-gradient(55% 45% at 78% 88%, rgba(30,75,143,.22), transparent 70%);
   animation: db-sheen 9s ease-in-out infinite; pointer-events: none;
 }
 @keyframes db-sheen { 0%, 100% { transform: translate(-6%, -4%); } 50% { transform: translate(8%, 6%); } }
@@ -1953,15 +1952,15 @@ body:has(.bento-app)::after { display: none; }
   box-shadow: 0 0 0 0 var(--accent); animation: db-ping 2.2s infinite;
 }
 @keyframes db-ping {
-  0% { box-shadow: 0 0 0 0 rgba(211,95,43,.55); }
-  70% { box-shadow: 0 0 0 11px rgba(211,95,43,0); }
-  100% { box-shadow: 0 0 0 0 rgba(211,95,43,0); }
+  0% { box-shadow: 0 0 0 0 rgba(239,60,60,.55); }
+  70% { box-shadow: 0 0 0 11px rgba(239,60,60,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,60,60,0); }
 }
 .bento-daybreak .name {
-  font-family: var(--fd); font-weight: 700; font-size: clamp(54px, 5.2vw, 76px);
-  line-height: .88; letter-spacing: -.04em;
+  font-family: var(--fd); font-weight: 600; font-size: clamp(60px, 8.5vw, 156px);
+  line-height: .88; letter-spacing: -.025em;
 }
-.bento-daybreak .name em { font-style: normal; color: var(--accent); }
+.bento-daybreak .name em { font-style: italic; font-weight: 500; color: var(--accent); }
 .bento-daybreak .hero-specialty {
   font-family: var(--fm); font-size: 10.5px; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--accent); opacity: 0.75;
@@ -1970,18 +1969,20 @@ body:has(.bento-app)::after { display: none; }
 .bento-daybreak .hero-specialty::before {
   content: ''; width: 20px; height: 1px; background: currentColor; opacity: 0.6; flex-shrink: 0;
 }
-.bento-daybreak .role { color: rgba(243,238,228,.66); font-size: 15.5px; line-height: 1.58; margin-top: 8px; max-width: 34ch; }
+.bento-daybreak .role { color: rgba(255,255,255,.66); font-size: 15.5px; line-height: 1.58; margin-top: 8px; max-width: 34ch; }
 .bento-daybreak .ctas { display: flex; gap: 10px; }
-.bento-daybreak .btn:active { transform: scale(0.97); }
+.bento-daybreak .btn:active { transform: translate(1px, 1px) !important; box-shadow: 1px 1px 0 rgba(255,255,255,.3) !important; }
 .bento-daybreak .btn {
-  font-family: var(--fm); font-size: 12px; letter-spacing: 0.03em; padding: 11px 17px;
-  border-radius: 999px; border: 1px solid rgba(255,255,255,.22); color: #f3eee4;
-  transition: background 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out, transform 150ms ease-out; cursor: pointer; display: inline-flex; align-items: center; gap: 0;
+  font-family: var(--fm); font-size: 12px; letter-spacing: 0.03em; padding: 10px 18px;
+  border-radius: 7px; border: 1.5px solid rgba(255,255,255,.55); color: #ffffff;
+  box-shadow: 3px 3px 0 rgba(255,255,255,.16);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out, background 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 0;
 }
-.bento-daybreak .btn:hover { background: #f3eee4; color: var(--inktile); border-color: #f3eee4; }
+.bento-daybreak .btn:hover { background: #ffffff; color: var(--inktile); border-color: #ffffff; transform: translate(-2px, -2px); box-shadow: 5px 5px 0 rgba(255,255,255,.32); }
 .bento-daybreak .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.bento-daybreak .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.bento-daybreak .btn.primary:hover { background: #fff; color: var(--inktile); border-color: #fff; }
+.bento-daybreak .btn.primary { background: var(--accent); border-color: var(--ink); color: #fff; box-shadow: 3px 3px 0 var(--accent-2); }
+.bento-daybreak .btn.primary:hover { background: var(--accent); color: #fff; border-color: var(--ink); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--accent-2); }
 .bento-daybreak .btn-arr { width: 13px; height: 13px; margin-left: 6px; flex-shrink: 0; transition: transform .22s; }
 .bento-daybreak .btn:hover .btn-arr { transform: translateX(3px); }
 
@@ -2009,7 +2010,9 @@ body:has(.bento-app)::after { display: none; }
 .bento-daybreak .proj p { color: var(--mute); font-size: 13.5px; line-height: 1.5; margin-top: 9px; }
 .bento-daybreak .feature p { max-width: 42ch; }
 .bento-daybreak .chips { display: flex; flex-wrap: wrap; gap: 6px; position: relative; z-index: 1; }
-.bento-daybreak .chip { font-family: var(--fm); font-size: 10px; padding: 5px 9px; border-radius: 999px; background: #efe9dc; color: var(--mute); }
+.bento-daybreak .chip { font-family: var(--fm); font-size: 10px; padding: 4px 9px; border-radius: 4px; background: transparent; border: 1.3px solid var(--line); color: var(--mute); transform: rotate(-1deg); display: inline-block; }
+.bento-daybreak .chip:nth-child(2n) { transform: rotate(0.8deg); }
+.bento-daybreak .chip:nth-child(3n) { transform: rotate(-0.4deg); }
 .bento-daybreak .go {
   position: absolute; top: 20px; right: 20px; width: 34px; height: 34px;
   border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center;
@@ -2022,7 +2025,7 @@ body:has(.bento-app)::after { display: none; }
 .bento-daybreak .proj { cursor: pointer; }
 .bento-daybreak .feature .mapbg {
   position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(211,95,43,.16) 1.1px, transparent 1.1px);
+  background-image: radial-gradient(rgba(239,60,60,.16) 1.1px, transparent 1.1px);
   background-size: 18px 18px;
   -webkit-mask-image: linear-gradient(120deg, transparent 40%, #000 100%);
   mask-image: linear-gradient(120deg, transparent 40%, #000 100%);
@@ -2031,7 +2034,7 @@ body:has(.bento-app)::after { display: none; }
 
 /* portrait */
 .bento-daybreak .portrait {
-  background: linear-gradient(150deg, #d35f2b, #e98a4e); color: #fff; justify-content: flex-end; border-color: transparent;
+  background: var(--accent); color: #fff; justify-content: flex-end; border-color: transparent;
 }
 .bento-daybreak .portrait .ph {
   position: absolute; inset: 0;
@@ -2057,7 +2060,7 @@ body:has(.bento-app)::after { display: none; }
 .bento-daybreak .sklist { display: flex; flex-direction: column; justify-content: space-between; flex: 1; margin-top: 16px; }
 .bento-daybreak .srow { display: flex; align-items: center; gap: 12px; }
 .bento-daybreak .sk { font-size: 12.5px; width: 118px; flex-shrink: 0; }
-.bento-daybreak .track { flex: 1; height: 6px; background: #ece5d6; border-radius: 999px; overflow: hidden; }
+.bento-daybreak .track { flex: 1; height: 6px; background: #e4e4e7; border-radius: 999px; overflow: hidden; }
 .bento-daybreak .fill { display: block; height: 100%; width: 100%; background: var(--inktile); border-radius: 999px; position: relative; overflow: hidden; transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.22,1,.36,1); }
 .bento-daybreak .fill::after {
   content: ''; position: absolute; inset: 0;
@@ -2088,16 +2091,16 @@ body:has(.bento-app)::after { display: none; }
 /* contact */
 .bento-daybreak .contact {
   flex-direction: row; align-items: center; justify-content: space-between; gap: 18px;
-  background: var(--inktile); border-color: #241f17; color: #f3eee4;
+  background: var(--inktile); border-color: #000000; color: #ffffff;
 }
-.bento-daybreak .clbl { color: rgba(243,238,228,.55); }
+.bento-daybreak .clbl { color: rgba(255,255,255,.55); }
 .bento-daybreak .cline { font-family: var(--fd); font-weight: 700; font-size: 26px; letter-spacing: -.02em; margin-top: 6px; }
 .bento-daybreak .cright { display: flex; align-items: center; gap: 18px; }
-.bento-daybreak .mail { font-family: var(--fm); font-size: 13px; border-bottom: 1px solid rgba(243,238,228,.4); padding-bottom: 2px; }
+.bento-daybreak .mail { font-family: var(--fm); font-size: 13px; border-bottom: 1px solid rgba(255,255,255,.4); padding-bottom: 2px; }
 .bento-daybreak .mail:hover { border-color: var(--accent); color: var(--accent); }
 .bento-daybreak .socials { display: flex; gap: 8px; }
 .bento-daybreak .soc {
-  width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(243,238,228,.25);
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25);
   display: grid; place-items: center; transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
 }
 .bento-daybreak .soc svg { width: 17px; height: 17px; }
@@ -2107,16 +2110,13 @@ body:has(.bento-app)::after { display: none; }
    ECLIPSE — bold dark theme with cursor spotlight
    ================================================================ */
 .bento-eclipse {
-  --bg: #0b0a0c; --tile: #161319; --tile2: #1b1720; --ink: #ece7df;
-  --mute: #968e85; --dim: #5d564f; --line: #2a2531;
-  --accent: #ff7a3d; --accent-soft: rgba(255,122,61,.16);
-  --accent-2: #6cc5f0; --accent-2-soft: rgba(108,197,240,.28);
-  --fd: 'Space Grotesk', sans-serif; --fb: 'Inter', sans-serif; --fm: 'JetBrains Mono', monospace;
+  --bg: #14130f; --tile: #1c1a17; --tile2: #221f1b; --ink: #f5f4ef;
+  --mute: #a39e97; --dim: #57534e; --line: #f5f4ef;
+  --accent: #ff5b4a; --accent-soft: rgba(255,91,74,.16);
+  --accent-2: #5b9bdb; --accent-2-soft: rgba(91,155,219,.22);
+  --fd: 'Fraunces', serif; --fb: 'Instrument Sans', sans-serif; --fm: 'JetBrains Mono', monospace;
   height: 100%; width: 100%;
-  background:
-    radial-gradient(120% 90% at 12% -10%, rgba(255,122,61,.10), transparent 55%),
-    radial-gradient(90% 80% at 110% 120%, rgba(120,90,255,.07), transparent 55%),
-    var(--bg);
+  background: var(--bg);
   color: var(--ink); font-family: var(--fb); -webkit-font-smoothing: antialiased;
   box-sizing: border-box; padding: 20px; position: relative; overflow: hidden;
 }
@@ -2127,7 +2127,7 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .spotlight {
   position: absolute; inset: 0; pointer-events: none; z-index: 3; mix-blend-mode: screen;
   --mx: 50%; --my: 18%;
-  background: radial-gradient(circle 300px at var(--mx) var(--my), rgba(255,150,90,.22), rgba(255,122,61,.07) 45%, transparent 70%);
+  background: radial-gradient(circle 300px at var(--mx) var(--my), rgba(255,91,74,.18), rgba(255,91,74,.05) 45%, transparent 70%);
   transition: background .08s linear;
 }
 .bento-eclipse .grid {
@@ -2149,21 +2149,17 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .t-cont { grid-area: cont; }
 
 .bento-eclipse .tile {
-  background: linear-gradient(180deg, var(--tile2), var(--tile));
-  border: 1px solid var(--line); border-radius: 18px; padding: 22px;
+  background: var(--tile);
+  border: 1.5px solid var(--line); border-radius: 12px; padding: 22px;
   position: relative; overflow: hidden; display: flex; flex-direction: column;
-  box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 18px 40px -28px rgba(0,0,0,.9);
+  box-shadow: 3px 3px 0 rgba(0,0,0,.5);
   opacity: 0; transform: translateY(12px) scale(.985);
-  transition: opacity .6s var(--d, 0ms) ease, transform .65s var(--d, 0ms) cubic-bezier(.22,1,.36,1), border-color .3s, box-shadow .4s;
+  transition: opacity .6s var(--d, 0ms) ease, transform .65s var(--d, 0ms) cubic-bezier(.22,1,.36,1), border-color .25s, box-shadow .25s ease-out;
 }
 .bento-eclipse.in .tile { opacity: 1; transform: none; }
-.bento-eclipse .tile::before {
-  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
-}
 .bento-eclipse .tile:hover {
-  transform: translateY(-4px); border-color: rgba(255,122,61,.5); transition: transform 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out;
-  box-shadow: 0 26px 50px -28px rgba(0,0,0,.95), 0 0 0 1px rgba(255,122,61,.12);
+  transform: translate(-3px, -3px); border-color: var(--accent-2); transition: transform 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out;
+  box-shadow: 6px 6px 0 var(--accent-2);
 }
 @media (prefers-reduced-motion: reduce) {
   .bento-eclipse .tile { opacity: 1 !important; transform: none !important; transition: none !important; }
@@ -2171,8 +2167,8 @@ body:has(.bento-app)::after { display: none; }
 
 /* hero */
 .bento-eclipse .hero {
-  border-color: rgba(255,122,61,.32); gap: 12px;
-  background: linear-gradient(155deg, rgba(255,122,61,.16), var(--tile) 55%);
+  border-color: rgba(255,91,74,.32); gap: 12px;
+  background: linear-gradient(155deg, rgba(255,91,74,.16), var(--tile) 55%);
 }
 .bento-eclipse .hero .ctas { margin-top: auto; }
 .bento-eclipse .status {
@@ -2181,18 +2177,18 @@ body:has(.bento-app)::after { display: none; }
 }
 .bento-eclipse .ping {
   width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 12px var(--accent); animation: ec-ping 2.2s infinite;
+  animation: ec-ping 2.2s infinite;
 }
 @keyframes ec-ping {
-  0% { box-shadow: 0 0 0 0 rgba(255,122,61,.5), 0 0 12px var(--accent); }
-  70% { box-shadow: 0 0 0 11px rgba(255,122,61,0), 0 0 12px var(--accent); }
-  100% { box-shadow: 0 0 0 0 rgba(255,122,61,0), 0 0 12px var(--accent); }
+  0% { box-shadow: 0 0 0 0 rgba(255,91,74,.55); }
+  70% { box-shadow: 0 0 0 11px rgba(255,91,74,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,91,74,0); }
 }
 .bento-eclipse .name {
-  font-family: var(--fd); font-weight: 700; font-size: clamp(54px, 5.2vw, 76px); line-height: .88;
-  letter-spacing: -.04em; text-shadow: 0 0 40px rgba(255,122,61,.15);
+  font-family: var(--fd); font-weight: 600; font-size: clamp(60px, 8.5vw, 156px); line-height: .88;
+  letter-spacing: -.025em;
 }
-.bento-eclipse .name em { font-style: normal; color: var(--accent); text-shadow: 0 0 26px rgba(255,122,61,.55); }
+.bento-eclipse .name em { font-style: italic; font-weight: 500; color: var(--accent); }
 .bento-eclipse .hero-specialty {
   font-family: var(--fm); font-size: 10.5px; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--accent); opacity: 0.85;
@@ -2204,15 +2200,16 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .role { color: var(--mute); font-size: 15.5px; line-height: 1.58; margin-top: 8px; max-width: 34ch; }
 .bento-eclipse .ctas { display: flex; gap: 10px; }
 .bento-eclipse .btn {
-  font-family: var(--fm); font-size: 12px; letter-spacing: 0.03em; padding: 11px 17px;
-  border-radius: 999px; border: 1px solid var(--line); color: var(--ink);
-  transition: background 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out, transform 150ms ease-out; cursor: pointer; display: inline-flex; align-items: center;
+  font-family: var(--fm); font-size: 12px; letter-spacing: 0.03em; padding: 10px 18px;
+  border-radius: 7px; border: 1.5px solid var(--line); color: var(--ink);
+  box-shadow: 3px 3px 0 rgba(245,244,239,.14);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out, background 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out; cursor: pointer; display: inline-flex; align-items: center;
 }
-.bento-eclipse .btn:active { transform: scale(0.97); }
-.bento-eclipse .btn:hover { border-color: var(--accent); color: var(--accent); }
+.bento-eclipse .btn:active { transform: translate(1px, 1px) !important; box-shadow: 1px 1px 0 rgba(245,244,239,.2) !important; }
+.bento-eclipse .btn:hover { border-color: var(--accent); color: var(--accent); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 rgba(245,244,239,.22); }
 .bento-eclipse .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.bento-eclipse .btn.primary { background: var(--accent); border-color: var(--accent); color: #160d07; box-shadow: 0 0 24px rgba(255,122,61,.4); }
-.bento-eclipse .btn.primary:hover { background: #ff9056; color: #160d07; }
+.bento-eclipse .btn.primary { background: var(--accent); border-color: var(--line); color: #14130f; box-shadow: 3px 3px 0 var(--accent-2); }
+.bento-eclipse .btn.primary:hover { background: var(--accent); color: #14130f; border-color: var(--line); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--accent-2); }
 .bento-eclipse .btn-arr { width: 13px; height: 13px; margin-left: 6px; flex-shrink: 0; transition: transform .22s; }
 .bento-eclipse .btn:hover .btn-arr { transform: translateX(3px); }
 
@@ -2222,7 +2219,7 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .pn { font-family: var(--fm); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; }
 .bento-eclipse .award {
   font-family: var(--fm); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
-  color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(255,122,61,.3);
+  color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(255,91,74,.3);
   padding: 3px 9px; border-radius: 999px;
 }
 .bento-eclipse .live { display: inline-flex; align-items: center; gap: 6px; font-family: var(--fm); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mute); }
@@ -2231,22 +2228,24 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .proj p { color: var(--mute); font-size: 13.5px; line-height: 1.5; margin-top: 9px; }
 .bento-eclipse .feature p { max-width: 42ch; }
 .bento-eclipse .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.bento-eclipse .chip { font-family: var(--fm); font-size: 10px; padding: 5px 9px; border-radius: 999px; background: rgba(255,255,255,.04); border: 1px solid var(--line); color: var(--mute); }
+.bento-eclipse .chip { font-family: var(--fm); font-size: 10px; padding: 4px 9px; border-radius: 4px; background: transparent; border: 1.3px solid var(--line); color: var(--mute); transform: rotate(-1deg); display: inline-block; }
+.bento-eclipse .chip:nth-child(2n) { transform: rotate(0.8deg); }
+.bento-eclipse .chip:nth-child(3n) { transform: rotate(-0.4deg); }
 .bento-eclipse .go {
   position: absolute; top: 20px; right: 20px; width: 34px; height: 34px;
   border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center;
   color: var(--mute); transition: all .3s; z-index: 2;
 }
 .bento-eclipse svg { width: 15px; height: 15px; }
-.bento-eclipse .proj:hover .go { background: var(--accent); color: #160d07; border-color: var(--accent); transform: rotate(-45deg); box-shadow: 0 0 20px rgba(255,122,61,.5); }
+.bento-eclipse .proj:hover .go { background: var(--accent); color: #14130f; border-color: var(--line); transform: rotate(-45deg); }
 .bento-eclipse .soc,
 .bento-eclipse .go,
 .bento-eclipse .proj { cursor: pointer; }
 
 /* portrait */
 .bento-eclipse .portrait {
-  justify-content: flex-end; border-color: rgba(255,122,61,.3);
-  background: linear-gradient(150deg, rgba(255,122,61,.5), rgba(120,60,30,.25));
+  justify-content: flex-end; border-color: rgba(255,91,74,.3);
+  background: linear-gradient(150deg, rgba(255,91,74,.5), rgba(255,91,74,.2));
 }
 .bento-eclipse .portrait .ph { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(0,0,0,.12) 0 11px, transparent 11px 22px); }
 .bento-eclipse .pinitials { position: absolute; top: 18px; left: 20px; font-family: var(--fd); font-weight: 700; font-size: 30px; color: #fff; }
@@ -2254,14 +2253,14 @@ body:has(.bento-app)::after { display: none; }
 
 /* clock */
 .bento-eclipse .clock { justify-content: space-between; }
-.bento-eclipse .time { font-family: var(--fd); font-weight: 600; font-size: 42px; letter-spacing: -.02em; line-height: 1; color: var(--ink); text-shadow: 0 0 30px rgba(255,122,61,.2); }
+.bento-eclipse .time { font-family: var(--fd); font-weight: 600; font-size: 42px; letter-spacing: -.02em; line-height: 1; color: var(--ink); }
 .bento-eclipse .dimlbl { color: var(--mute); }
 
 /* stats */
 .bento-eclipse .stats { flex-direction: row; align-items: stretch; gap: 0; padding: 0; }
 .bento-eclipse .stat { flex: 1; padding: 16px 18px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
 .bento-eclipse .stat:last-child { border-right: none; }
-.bento-eclipse .num { font-family: var(--fd); font-weight: 600; font-size: 38px; letter-spacing: -.03em; line-height: 1; color: var(--accent); text-shadow: 0 0 24px rgba(255,122,61,.35); }
+.bento-eclipse .num { font-family: var(--fd); font-weight: 600; font-size: 38px; letter-spacing: -.03em; line-height: 1; color: var(--accent); }
 .bento-eclipse .stat .cap { color: var(--mute); font-size: 11.5px; line-height: 1.3; margin-top: 6px; }
 
 /* skills */
@@ -2269,7 +2268,7 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .srow { display: flex; align-items: center; gap: 12px; }
 .bento-eclipse .sk { font-size: 12.5px; width: 118px; flex-shrink: 0; }
 .bento-eclipse .track { flex: 1; height: 6px; background: rgba(255,255,255,.06); border-radius: 999px; overflow: hidden; }
-.bento-eclipse .fill { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #ff7a3d, #ffb07a); border-radius: 999px; box-shadow: 0 0 12px rgba(255,122,61,.5); position: relative; overflow: hidden; transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.22,1,.36,1); }
+.bento-eclipse .fill { display: block; height: 100%; width: 100%; background: var(--accent); border-radius: 999px; position: relative; overflow: hidden; transform: scaleX(0); transform-origin: left; transition: transform 1s cubic-bezier(.22,1,.36,1); }
 .bento-eclipse .fill::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.75) 50%, transparent 70%);
@@ -2293,14 +2292,14 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .tl { justify-content: flex-start; }
 .bento-eclipse .tsteps { display: flex; gap: 10px; margin-top: 14px; flex: 1; }
 .bento-eclipse .tstep { flex: 1; border-top: 2px solid var(--accent-2-soft); padding-top: 9px; display: flex; flex-direction: column; gap: 5px; }
-.bento-eclipse .tstep .yr { font-family: var(--fd); font-weight: 700; color: var(--accent-2); font-size: 17px; text-shadow: 0 0 20px rgba(108,197,240,.4); }
+.bento-eclipse .tstep .yr { font-family: var(--fd); font-weight: 700; color: var(--accent-2); font-size: 17px; }
 .bento-eclipse .tstep .td { color: var(--mute); font-size: 11.5px; line-height: 1.35; }
 
 /* contact */
 .bento-eclipse .contact {
   flex-direction: row; align-items: center; justify-content: space-between; gap: 18px;
-  border-color: rgba(255,122,61,.32);
-  background: linear-gradient(120deg, rgba(255,122,61,.14), var(--tile) 60%);
+  border-color: rgba(255,91,74,.32);
+  background: linear-gradient(120deg, rgba(255,91,74,.14), var(--tile) 60%);
 }
 .bento-eclipse .clbl { color: var(--accent); }
 .bento-eclipse .cline { font-family: var(--fd); font-weight: 700; font-size: 26px; letter-spacing: -.02em; margin-top: 6px; }
@@ -2310,7 +2309,7 @@ body:has(.bento-app)::after { display: none; }
 .bento-eclipse .socials { display: flex; gap: 8px; }
 .bento-eclipse .soc { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out; }
 .bento-eclipse .soc svg { width: 17px; height: 17px; }
-.bento-eclipse .soc:hover { background: var(--accent); border-color: var(--accent); color: #160d07; box-shadow: 0 0 18px rgba(255,122,61,.5); }
+.bento-eclipse .soc:hover { background: var(--accent); border-color: var(--line); color: #14130f; }
 
 /* ---- Personal Widget tile ----------------------------------------- */
 .site-bento .bg-widget { grid-template-columns: 1fr; }
@@ -2465,7 +2464,7 @@ body:has(.bento-app)::after { display: none; }
 /* particle portrait tile overrides — canvas covers the tile, location stays on top */
 .bento-daybreak .particle-portrait,
 .bento-eclipse .particle-portrait {
-  background: #000; border-color: rgba(255,122,61,0.3); padding: 0; overflow: hidden;
+  background: var(--inktile, #14130f); border-color: var(--line); padding: 0; overflow: hidden;
 }
 .bento-daybreak .particle-portrait .ploc,
 .bento-eclipse .particle-portrait .ploc {
