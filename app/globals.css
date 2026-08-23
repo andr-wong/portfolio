@@ -1848,7 +1848,7 @@ body:has(.bento-app)::after { display: none; }
 }
 .site-bento .princard .pv { font-size: 16px; line-height: 1.5; text-wrap: pretty; margin-top: 2px; }
 .site-bento .retl .retl-line { font-size: 15px; line-height: 1.55; margin-top: 12px; text-wrap: pretty; }
-.site-bento .retl { justify-content: flex-start; gap: 6px; }
+.site-bento .tile.retl { justify-content: flex-start; gap: 6px; }
 
 @media (max-width: 920px) {
   .site-bento .band-grid { grid-template-columns: 1fr !important; }
