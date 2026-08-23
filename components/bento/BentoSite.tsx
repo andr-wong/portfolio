@@ -63,7 +63,6 @@ const Band = ({ eyebrow, children }: { eyebrow?: string; children: React.ReactNo
 
 export default function BentoSite({ variant, page }: BentoSiteProps) {
   const isWork = page === 'work';
-  const d = isWork ? BENTO : BENTO_PERSONAL;
   const stats = isWork ? BENTO.stats : BENTO_PERSONAL.stats;
   const { ref, shown, time, counts } = useBentoMotion(stats);
   const [contactOpen, setContactOpen] = useState(false);

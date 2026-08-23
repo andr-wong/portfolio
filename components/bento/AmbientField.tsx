@@ -9,7 +9,10 @@ interface AmbientFieldProps {
 export default function AmbientField({ mode }: AmbientFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const modeRef = useRef(mode);
-  modeRef.current = mode;
+
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
