@@ -1988,7 +1988,7 @@ body:has(.bento-app)::after { display: none; }
 
 /* projects */
 .bento-daybreak .proj { justify-content: space-between; }
-.bento-daybreak .prow { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+.bento-daybreak .prow { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; padding-right: 44px; }
 .bento-daybreak .pn { font-family: var(--fm); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; }
 .bento-daybreak .award {
   font-family: var(--fm); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
@@ -2215,7 +2215,7 @@ body:has(.bento-app)::after { display: none; }
 
 /* projects */
 .bento-eclipse .proj { justify-content: space-between; }
-.bento-eclipse .prow { display: flex; align-items: center; justify-content: space-between; }
+.bento-eclipse .prow { display: flex; align-items: center; justify-content: space-between; padding-right: 44px; }
 .bento-eclipse .pn { font-family: var(--fm); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; }
 .bento-eclipse .award {
   font-family: var(--fm); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
