@@ -1,8 +1,24 @@
 import type { Metadata } from 'next'
+import { Source_Serif_4, IBM_Plex_Mono } from 'next/font/google'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 import { BENTO } from '@/components/bento/data'
 import './globals.css'
+
+const sourceSerif4 = Source_Serif_4({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--ff-source-serif',
+  display: 'swap',
+})
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--ff-ibm-plex-mono',
+  display: 'swap',
+})
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.dev'
 
@@ -24,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${sourceSerif4.variable} ${ibmPlexMono.variable}`}>
       <body>
         <script
           type="application/ld+json"
