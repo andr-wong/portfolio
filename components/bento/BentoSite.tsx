@@ -27,38 +27,71 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-const GoArrow = () => (
-  <span className="go" aria-hidden="true">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7">
-      <path d="M5 11 11 5M5 5h6v6" />
-    </svg>
-  </span>
+const MarginNote = ({ children }: { children: React.ReactNode }) => (
+  <aside className="margin-note" aria-hidden="true">
+    {children}
+  </aside>
 );
 
-const TileLink = ({ href, label }: { href: string; label: string }) => (
-  <a className="tile-cover" href={href} target="_blank" rel="noreferrer" aria-label={label} />
-);
-
-const Chips = ({ items }: { items: string[] }) => (
-  <div className="chips">
-    {items.map((s) => (
-      <span className="chip" key={s}>
-        {s}
-      </span>
-    ))}
-  </div>
-);
-
-const Band = ({ eyebrow, children }: { eyebrow?: string; children: React.ReactNode }) => (
-  <section className="band">
-    {eyebrow && (
-      <div className="band-head">
-        <span className="eyebrow">{eyebrow}</span>
-        <span className="rule" />
-      </div>
-    )}
+const Section = ({
+  n,
+  title,
+  dly,
+  children,
+}: {
+  n: string;
+  title: string;
+  dly?: string;
+  children: React.ReactNode;
+}) => (
+  <section className="pspec reveal" style={{ '--d': dly ?? '0ms' } as React.CSSProperties}>
+    <h2>
+      <span className="secnum mono">&sect;{n}</span> {title}
+    </h2>
     {children}
   </section>
+);
+
+const Figure = ({
+  n,
+  tag,
+  name,
+  desc,
+  tags,
+  host,
+  href,
+  meta,
+  quiet,
+  dly,
+}: {
+  n: string;
+  tag: string;
+  name: string;
+  desc: string;
+  tags: string[];
+  host?: string;
+  href?: string;
+  meta?: React.ReactNode;
+  quiet?: boolean;
+  dly?: string;
+}) => (
+  <figure
+    className={`fig reveal${quiet ? ' quiet' : ''}`}
+    style={{ '--d': dly ?? '0ms' } as React.CSSProperties}
+  >
+    {href && <a className="fig-cover" href={href} target="_blank" rel="noreferrer" aria-label={`Open ${name}`} />}
+    <div className="fig-plate mono">FIG. {n}</div>
+    <figcaption>
+      <span className="fig-tag mono">{tag}</span>
+      {meta}
+      <h3>{name}</h3>
+    </figcaption>
+    <p>{desc}</p>
+    <p className="fig-meta mono">
+      {tags.join(' · ')}
+      {host && <span className="fig-doi">doi:{host}</span>}
+    </p>
+  </figure>
 );
 
 export default function BentoSite({ variant, page }: BentoSiteProps) {
@@ -85,348 +118,301 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
 
   const PARTICLE_WORDS = ['AW', "CS '26", 'Adelaide', 'Builder'];
 
-  const Portrait = ({ dly }: { dly: string }) => (
-    <section className="tile portrait particle-portrait" style={{ '--d': dly } as React.CSSProperties}>
-      <ParticleTextEffect
-        words={PARTICLE_WORDS}
-        interval={300}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', borderRadius: 'inherit' }}
-      />
-      <div className="ploc" style={{ position: 'relative', zIndex: 1 }}>
-        <span className="mono">{isWork ? BENTO.location.city : BENTO_PERSONAL.location.city}</span>
+  const FigureZero = ({ city }: { city: string }) => (
+    <figure className="fig fig-zero reveal" style={{ '--d': '120ms' } as React.CSSProperties}>
+      <div className="fig-plate mono">FIG. 0</div>
+      <div className="fig-zero-visual" aria-hidden="true">
+        <ParticleTextEffect
+          words={PARTICLE_WORDS}
+          interval={300}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+        />
       </div>
-    </section>
-  );
-
-  const Clock = ({ dly }: { dly: string }) => (
-    <section className="tile clock" style={{ '--d': dly } as React.CSSProperties}>
-      <div className="label">Local · ACST</div>
-      <div className="time">{time}</div>
-      <div className="label dimlbl">
-        {isWork ? BENTO.location.meta : BENTO_PERSONAL.location.meta}
-      </div>
-    </section>
-  );
-
-  const Stats = ({ dly }: { dly: string }) => (
-    <section className="tile stats" style={{ '--d': dly } as React.CSSProperties}>
-      {stats.map((s, i) => (
-        <div className="stat" key={i}>
-          <div className="num">
-            {counts[i]}
-            {s.suffix}
-          </div>
-          <div className="cap">{s.cap}</div>
-        </div>
-      ))}
-    </section>
-  );
-
-  const contact = isWork ? BENTO.contact : BENTO_PERSONAL.contact;
-
-  const Contact = ({ dly, line }: { dly: string; line: string }) => (
-    <section className="tile contact" style={{ '--d': dly } as React.CSSProperties}>
-      <div className="cleft">
-        <div className="label clbl">Let&apos;s talk</div>
-        <div className="cline">{line}</div>
-      </div>
-      <div className="cright">
-        <button className="mail" onClick={() => setContactOpen(true)}>
-          Send a message
-        </button>
-        <div className="socials">
-          <a className="soc" href={contact.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-            <GithubIcon />
-          </a>
-          <a className="soc" href={contact.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <LinkedInIcon />
-          </a>
-        </div>
-      </div>
-    </section>
+      <figcaption className="mono">Subject, identifying marks visible &mdash; {city}.</figcaption>
+    </figure>
   );
 
   const renderWork = () => {
     const p = BENTO.projects;
+    const keywords = BENTO.skills
+      .slice(0, 5)
+      .map(([k]) => k)
+      .join(', ');
     return (
       <>
-        <Band>
-          <div className="band-grid bg-hero">
-            <section className="tile hero" style={{ '--d': '0ms' } as React.CSSProperties}>
-              {variant === 'daybreak' && <div className="sheen" />}
-              <div className="status">
-                <span className="ping" />
-                {BENTO.status}
-              </div>
-              <div className="hero-body">
-                <div className="name">
-                  {BENTO.name[0]}
-                  <br />
-                  <em>{BENTO.name[1]}.</em>
-                </div>
-                <div className="hero-specialty">Full-Stack &middot; CS &apos;26</div>
-                <p className="role">{BENTO.tagline}</p>
-              </div>
-              <div className="ctas">
-                <a className="btn primary" href={`mailto:${BENTO.contact.email}`}>
-                  Get in touch
-                </a>
-                <a className="btn" href={p.mapster.url} target="_blank" rel="noreferrer">
-                  View work
-                  <svg className="btn-arr" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <path d="M3 8h10M9 5l4 3-4 3" />
-                  </svg>
-                </a>
-              </div>
-            </section>
-            <div className="stack">
-              <Portrait dly="90ms" />
-              <Clock dly="150ms" />
-            </div>
-          </div>
-        </Band>
+        <section className="title-block reveal">
+          <h1 className="paper-title">
+            {BENTO.name[0]} <em>{BENTO.name[1]}</em>
+          </h1>
+          <p className="paper-subtitle">Full-Stack Software Engineer &middot; CS &apos;26 &middot; University of Adelaide</p>
+          <p className="byline mono">
+            Correspondence: <a href={`mailto:${BENTO.contact.email}`}>{BENTO.contact.email}</a> &middot;{' '}
+            {BENTO.location.city} &middot; <span className="live-clock">{time} ACST</span>
+          </p>
+        </section>
 
-        <Band eyebrow="By the numbers">
-          <div className="band-grid">
-            <Stats dly="0ms" />
-          </div>
-        </Band>
+        <section className="abstract-block reveal" style={{ '--d': '60ms' } as React.CSSProperties}>
+          <span className="abstract-label mono">Abstract</span>
+          <p className="abstract-text">{BENTO.tagline}</p>
+          <p className="keywords mono">
+            <span className="kw-label">Keywords &mdash;</span> {keywords}
+          </p>
+          <p className="status-line mono">{BENTO.status} &mdash; under review</p>
+        </section>
 
-        <Band eyebrow="Selected work">
-          <div className="band-grid bg-feature">
-            <section className="tile proj feature" style={{ '--d': '0ms' } as React.CSSProperties}>
-              {variant === 'daybreak' && <div className="mapbg" />}
-              <TileLink href={p.mapster.url!} label={`Open ${p.mapster.name}`} />
-              <GoArrow />
-              <div className="prow">
-                <span className="pn">{p.mapster.tag}</span>
-                <span className="award">★ {p.mapster.award}</span>
-              </div>
-              <div className="pmid">
-                <h3>{p.mapster.name}</h3>
-                <p>{p.mapster.desc}</p>
-              </div>
-              <Chips items={p.mapster.stack} />
-            </section>
-          </div>
-          <div className="band-grid bg-duo">
-            <section className="tile proj" style={{ '--d': '60ms' } as React.CSSProperties}>
-              <TileLink href={p.headcount.url!} label={`Open ${p.headcount.name}`} />
-              <GoArrow />
-              <div className="prow">
-                <span className="pn">{p.headcount.tag}</span>
-                <span className="live">
+        <FigureZero city={BENTO.location.city} />
+
+        <div className="paper-body">
+          <Section n="1" title="Related work" dly="0ms">
+            <table className="spec-table">
+              <thead>
+                <tr>
+                  <th>Domain</th>
+                  <th>Confidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                {BENTO.skills.map(([k, v], i) => (
+                  <tr key={k}>
+                    <td>{k}</td>
+                    <td className="mono bar-cell">
+                      <span className="bar-track">
+                        <span
+                          className="bar-fill"
+                          style={{
+                            transform: shown ? `scaleX(${v / 100})` : 'scaleX(0)',
+                            transitionDelay: `${300 + i * 60}ms`,
+                          }}
+                        />
+                      </span>
+                      {v}%
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Section>
+
+          <Section n="2" title="Contributions" dly="60ms">
+            <MarginNote>Reviewer 2 &mdash; verify dedup logic scales past six sources.</MarginNote>
+            <Figure
+              n="1"
+              tag={p.mapster.tag}
+              name={p.mapster.name}
+              desc={p.mapster.desc}
+              tags={p.mapster.stack}
+              host={p.mapster.host}
+              href={p.mapster.url}
+              meta={<span className="fig-award">&#9733; {p.mapster.award}</span>}
+              dly="0ms"
+            />
+            <Figure
+              n="2"
+              tag={p.headcount.tag}
+              name={p.headcount.name}
+              desc={p.headcount.desc}
+              tags={p.headcount.stack}
+              host={p.headcount.host}
+              href={p.headcount.url}
+              meta={
+                <span className="fig-live">
                   <span className="livedot" />
                   live
                 </span>
-              </div>
-              <div className="pmid">
-                <h3>{p.headcount.name}</h3>
-                <p>{p.headcount.desc}</p>
-              </div>
-              <Chips items={p.headcount.stack} />
-            </section>
-            <section className="tile proj quiet" style={{ '--d': '120ms' } as React.CSSProperties}>
-              <div className="prow">
-                <span className="pn">{p.hcf.tag}</span>
-              </div>
-              <div className="pmid">
-                <h3>{p.hcf.name}</h3>
-                <p>{p.hcf.desc}</p>
-              </div>
-              <Chips items={p.hcf.stack} />
-            </section>
-          </div>
-        </Band>
+              }
+              dly="60ms"
+            />
+            <Figure
+              n="3"
+              tag={p.hcf.tag}
+              name={p.hcf.name}
+              desc={p.hcf.desc}
+              tags={p.hcf.stack}
+              quiet
+              dly="120ms"
+            />
+          </Section>
 
-        <Band eyebrow="Stack & trajectory">
-          <div className="band-grid bg-skills">
-            <section className="tile skills" style={{ '--d': '0ms' } as React.CSSProperties}>
-              <div className="label">Stack · by confidence</div>
-              <div className="sklist">
-                {BENTO.skills.map(([k, v], i) => (
-                  <div className="srow" key={k}>
-                    <span className="sk">{k}</span>
-                    <span className="track">
-                      <span
-                        className="fill"
-                        style={{
-                          transform: shown ? `scaleX(${v / 100})` : 'scaleX(0)',
-                          transitionDelay: `${380 + i * 70}ms`,
-                        }}
-                      />
-                    </span>
-                    <span className="skpct">{v}%</span>
-                  </div>
+          <Section n="3" title="Evaluation" dly="120ms">
+            <MarginNote>Reviewer 1 &mdash; confidence intervals not reported. (It&apos;s a portfolio.)</MarginNote>
+            <table className="spec-table results-table">
+              <tbody>
+                {BENTO.stats.map((s, i) => (
+                  <tr key={s.cap}>
+                    <td>{s.cap}</td>
+                    <td className="mono result-val">
+                      {counts[i]}
+                      {s.suffix}
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            </section>
-            <section className="tile tl" style={{ '--d': '90ms' } as React.CSSProperties}>
-              <div className="label">Trajectory</div>
-              <div className="tsteps">
-                {BENTO.timeline.map(([y, t]) => (
-                  <div className="tstep" key={y}>
-                    <span className="yr">&apos;{y}</span>
-                    <span className="td">{t}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-        </Band>
+              </tbody>
+            </table>
+          </Section>
 
-        <Band eyebrow="Get in touch">
-          <div className="band-grid bg-nowcontact">
-            <section className="tile now" style={{ '--d': '0ms' } as React.CSSProperties}>
-              <div className="label">Now</div>
-              <div className="nlist">
-                {BENTO.now.map(([k, v]) => (
-                  <div className="nrow" key={k}>
-                    <span className="nk">{k}</span>
-                    <span className="nv">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-            <Contact dly="90ms" line="Build something durable." />
-          </div>
-        </Band>
+          <Section n="4" title="Chronology" dly="180ms">
+            <ol className="ref-list mono">
+              {BENTO.timeline.map(([y, t]) => (
+                <li key={y}>
+                  <span className="ref-yr">[{y}]</span> {t}
+                </li>
+              ))}
+            </ol>
+          </Section>
+        </div>
+
+        <section className="correspondence reveal" style={{ '--d': '240ms' } as React.CSSProperties}>
+          <h2>
+            <span className="secnum mono">&sect;5</span> Correspondence
+          </h2>
+          <p className="corr-line">
+            Build something durable.{' '}
+            <button className="btn-corr" onClick={() => setContactOpen(true)}>
+              Send correspondence &rarr;
+            </button>
+          </p>
+          <p className="mono see-also">
+            See also:{' '}
+            <a href={BENTO.contact.github} target="_blank" rel="noreferrer">
+              <GithubIcon /> GitHub
+            </a>{' '}
+            &middot;{' '}
+            <a href={BENTO.contact.linkedin} target="_blank" rel="noreferrer">
+              <LinkedInIcon /> LinkedIn
+            </a>
+          </p>
+        </section>
+
+        <footer className="doc-footer mono">p. 1 of 1 &mdash; compiled 2026 &mdash; Andrew Wong</footer>
       </>
     );
   };
 
   const renderPersonal = () => {
     const bp = BENTO_PERSONAL;
-    const heroName = (
-      <div className="name">
-        {bp.headline[0]}
-        <br />
-        <em>{bp.headline[1]}</em>
-      </div>
-    );
+    const keywords = Array.from(new Set([...bp.cook.chips, ...bp.maps.chips, ...bp.faith.chips])).join(', ');
     return (
       <>
-        <Band>
-          <div className="band-grid bg-hero">
-            <section className="tile hero" style={{ '--d': '0ms' } as React.CSSProperties}>
-              {variant === 'daybreak' && <div className="sheen" />}
-              <div className="status">
-                <span className="ping" />
-                {bp.status}
-              </div>
-              <div className="hero-body">
-                {heroName}
-                <p className="role">{bp.tagline}</p>
-              </div>
-              <div className="ctas">
-                <a className="btn primary" href={`mailto:${bp.contact.email}`}>
-                  Say hi
-                </a>
-                <a className="btn" href="#work">
-                  The work →
-                </a>
-              </div>
-            </section>
-            <div className="stack">
-              <Portrait dly="90ms" />
-              <Clock dly="150ms" />
-            </div>
-          </div>
-        </Band>
+        <section className="title-block reveal">
+          <h1 className="paper-title">
+            {bp.headline[0]} <em>{bp.headline[1]}</em>
+          </h1>
+          <p className="paper-subtitle">Personal appendix &middot; off the clock</p>
+          <p className="byline mono">
+            Correspondence: <a href={`mailto:${bp.contact.email}`}>{bp.contact.email}</a> &middot; {bp.location.city}{' '}
+            &middot; <span className="live-clock">{time} ACST</span>
+          </p>
+        </section>
 
-        <Band eyebrow="Off the clock">
-          <div className="band-grid bg-feature">
-            <section className="tile proj feature quiet" style={{ '--d': '0ms' } as React.CSSProperties}>
-              <div className="prow">
-                <span className="pn">{bp.cook.tag}</span>
-              </div>
-              <div className="pmid">
-                <h3>{bp.cook.name}</h3>
-                <p>{bp.cook.desc}</p>
-              </div>
-              <Chips items={bp.cook.chips} />
-            </section>
-          </div>
-          <div className="band-grid bg-duo">
-            <section className="tile proj quiet" style={{ '--d': '60ms' } as React.CSSProperties}>
-              <div className="prow">
-                <span className="pn">{bp.maps.tag}</span>
-              </div>
-              <div className="pmid">
-                <h3>{bp.maps.name}</h3>
-                <p>{bp.maps.desc}</p>
-              </div>
-              <Chips items={bp.maps.chips} />
-            </section>
-            <section className="tile proj quiet" style={{ '--d': '120ms' } as React.CSSProperties}>
-              <div className="prow">
-                <span className="pn">{bp.faith.tag}</span>
-              </div>
-              <div className="pmid">
-                <h3>{bp.faith.name}</h3>
-                <p>{bp.faith.desc}</p>
-              </div>
-              <Chips items={bp.faith.chips} />
-            </section>
-          </div>
-        </Band>
+        <section className="abstract-block reveal" style={{ '--d': '60ms' } as React.CSSProperties}>
+          <span className="abstract-label mono">Abstract</span>
+          <p className="abstract-text">{bp.tagline}</p>
+          <p className="keywords mono">
+            <span className="kw-label">Keywords &mdash;</span> {keywords}
+          </p>
+          <p className="status-line mono">{bp.status}</p>
+        </section>
 
-        <Band eyebrow="In rotation">
-          <div className="band-grid bg-skills">
-            <section className="tile now" style={{ '--d': '0ms' } as React.CSSProperties}>
-              <div className="label">In rotation</div>
-              <div className="nlist">
+        <FigureZero city={bp.location.city} />
+
+        <div className="paper-body">
+          <Section n="1" title="Off the clock" dly="0ms">
+            <Figure n="1" tag={bp.cook.tag} name={bp.cook.name} desc={bp.cook.desc} tags={bp.cook.chips} quiet dly="0ms" />
+            <Figure n="2" tag={bp.maps.tag} name={bp.maps.name} desc={bp.maps.desc} tags={bp.maps.chips} quiet dly="60ms" />
+            <Figure
+              n="3"
+              tag={bp.faith.tag}
+              name={bp.faith.name}
+              desc={bp.faith.desc}
+              tags={bp.faith.chips}
+              quiet
+              dly="120ms"
+            />
+          </Section>
+
+          <Section n="2" title="In rotation" dly="60ms">
+            <table className="spec-table">
+              <tbody>
                 {bp.now.map(([k, v]) => (
-                  <div className="nrow" key={k}>
-                    <span className="nk">{k}</span>
-                    <span className="nv">{v}</span>
-                  </div>
+                  <tr key={k}>
+                    <td className="mono">{k}</td>
+                    <td>{v}</td>
+                  </tr>
                 ))}
-              </div>
-            </section>
-            <Stats dly="90ms" />
-          </div>
-        </Band>
+              </tbody>
+            </table>
+          </Section>
 
-        <Band eyebrow="On loop">
-          <div className="band-grid bg-widget">
-            <PersonalWidget dly="0ms" />
-          </div>
-        </Band>
+          <Section n="3" title="Personal metrics" dly="120ms">
+            <table className="spec-table results-table">
+              <tbody>
+                {bp.stats.map((s, i) => (
+                  <tr key={s.cap}>
+                    <td>{s.cap}</td>
+                    <td className="mono result-val">
+                      {counts[i]}
+                      {s.suffix}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Section>
 
-        <Band eyebrow="Lightly held">
-          <div className="band-grid bg-principles">
-            {bp.principles.map(([k, v], i) => (
-              <section
-                className="tile princard"
-                style={{ '--d': `${i * 70}ms` } as React.CSSProperties}
-                key={k}
-              >
-                <span className="nk">{k}</span>
-                <p className="pv">{v}</p>
-              </section>
-            ))}
-          </div>
-        </Band>
+          <Section n="4" title="Supplementary material" dly="180ms">
+            <figure className="fig fig-supp reveal" style={{ '--d': '180ms' } as React.CSSProperties}>
+              <div className="fig-plate mono">FIG. S1</div>
+              <PersonalWidget dly="0ms" />
+            </figure>
+          </Section>
 
-        <Band eyebrow="Say hello">
-          <div className="band-grid bg-nowcontact">
-            <section className="tile proj retl quiet" style={{ '--d': '0ms' } as React.CSSProperties}>
-              <div className="label">{bp.retail.label}</div>
-              <p className="retl-line">{bp.retail.line}</p>
-            </section>
-            <Contact dly="90ms" line={bp.contactLine} />
-          </div>
-        </Band>
+          <Section n="5" title="Assumptions" dly="240ms">
+            <ol className="ref-list assumptions">
+              {bp.principles.map(([k, v]) => (
+                <li key={k}>
+                  <span className="assum-k mono">{k}</span>
+                  <p>{v}</p>
+                </li>
+              ))}
+            </ol>
+          </Section>
+
+          <Section n="6" title="Limitations" dly="300ms">
+            <p className="limitations-text">
+              <span className="mono limit-label">{bp.retail.label}.</span> {bp.retail.line}
+            </p>
+          </Section>
+        </div>
+
+        <section className="correspondence reveal" style={{ '--d': '360ms' } as React.CSSProperties}>
+          <h2>
+            <span className="secnum mono">&sect;7</span> Correspondence
+          </h2>
+          <p className="corr-line">
+            {bp.contactLine}{' '}
+            <button className="btn-corr" onClick={() => setContactOpen(true)}>
+              Send correspondence &rarr;
+            </button>
+          </p>
+          <p className="mono see-also">
+            See also:{' '}
+            <a href={bp.contact.github} target="_blank" rel="noreferrer">
+              <GithubIcon /> GitHub
+            </a>{' '}
+            &middot;{' '}
+            <a href={bp.contact.linkedin} target="_blank" rel="noreferrer">
+              <LinkedInIcon /> LinkedIn
+            </a>
+          </p>
+        </section>
+
+        <footer className="doc-footer mono">p. 1 of 1 &mdash; compiled 2026 &mdash; Andrew Wong</footer>
       </>
     );
   };
 
   return (
-    <div
-      className={`bento-${variant} site-bento${shown ? ' in' : ''}`}
-      ref={ref}
-    >
+    <div className={`bento-${variant} paper-doc${shown ? ' in' : ''}`} ref={ref}>
       {variant === 'eclipse' && <div className="spotlight" />}
       {isWork ? renderWork() : renderPersonal()}
       {contactOpen && <ContactForm onClose={() => setContactOpen(false)} variant={variant} />}

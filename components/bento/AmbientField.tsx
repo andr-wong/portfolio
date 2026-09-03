@@ -154,12 +154,12 @@ export default function AmbientField({ mode }: AmbientFieldProps) {
       ctx.lineWidth = 1;
       ctx.lineCap = 'round';
       if (dark) {
-        ctx.shadowColor = 'rgba(255,122,61,0.5)';
-        ctx.shadowBlur = 6;
-        ctx.strokeStyle = 'rgba(255,122,61,0.16)';
+        ctx.shadowColor = 'rgba(224,85,74,0.45)';
+        ctx.shadowBlur = 5;
+        ctx.strokeStyle = 'rgba(224,85,74,0.14)';
       } else {
         ctx.shadowBlur = 0;
-        ctx.strokeStyle = 'rgba(40,28,12,0.085)';
+        ctx.strokeStyle = 'rgba(36,31,24,0.09)';
       }
       ctx.stroke(path);
       ctx.shadowBlur = 0;
