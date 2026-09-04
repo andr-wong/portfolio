@@ -100,20 +100,38 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
   const { ref, shown, time, counts } = useBentoMotion(stats);
   const [contactOpen, setContactOpen] = useState(false);
 
-  // Eclipse: cursor spotlight tracks across the tall scrollable page
+  // Eclipse: cursor spotlight tracks across the tall scrollable page.
+  // getBoundingClientRect forces a synchronous layout read, so it must not
+  // run on every raw pointermove (which can fire far faster than the
+  // display refreshes) — the raw handler only records coordinates, and a
+  // single rAF per frame does the measurement and paint.
   useEffect(() => {
     if (variant !== 'eclipse') return;
     const root = ref.current;
     if (!root) return;
     const spot = root.querySelector('.spotlight') as HTMLElement | null;
     if (!spot) return;
-    const onMove = (e: PointerEvent) => {
+
+    let clientX = 0;
+    let clientY = 0;
+    let raf = 0;
+
+    const apply = () => {
+      raf = 0;
       const r = root.getBoundingClientRect();
-      spot.style.setProperty('--mx', ((e.clientX - r.left) / r.width) * 100 + '%');
-      spot.style.setProperty('--my', ((e.clientY - r.top) / r.height) * 100 + '%');
+      spot.style.setProperty('--mx', ((clientX - r.left) / r.width) * 100 + '%');
+      spot.style.setProperty('--my', ((clientY - r.top) / r.height) * 100 + '%');
+    };
+    const onMove = (e: PointerEvent) => {
+      clientX = e.clientX;
+      clientY = e.clientY;
+      if (!raf) raf = requestAnimationFrame(apply);
     };
     root.addEventListener('pointermove', onMove);
-    return () => root.removeEventListener('pointermove', onMove);
+    return () => {
+      root.removeEventListener('pointermove', onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [variant, page, ref]);
 
   const PARTICLE_WORDS = ['AW', "CS '26", 'Adelaide', 'Builder'];

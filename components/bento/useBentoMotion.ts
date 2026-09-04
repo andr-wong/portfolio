@@ -29,18 +29,23 @@ export function useBentoMotion(stats: StatItem[], countDur = 1100) {
     tickClock();
     const ci = setInterval(tickClock, 10000);
 
-    const start = Date.now();
-    const cci = setInterval(() => {
-      const p = Math.min(1, (Date.now() - start) / countDur);
-      setCounts(
-        stats.map((s) =>
-          typeof s.n === 'number'
-            ? Math.round(s.n * (1 - Math.pow(1 - p, 3)))
-            : s.n
-        )
-      );
-      if (p >= 1) clearInterval(cci);
-    }, 32);
+    let cci: ReturnType<typeof setInterval> | undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCounts(stats.map((s) => s.n));
+    } else {
+      const start = Date.now();
+      cci = setInterval(() => {
+        const p = Math.min(1, (Date.now() - start) / countDur);
+        setCounts(
+          stats.map((s) =>
+            typeof s.n === 'number'
+              ? Math.round(s.n * (1 - Math.pow(1 - p, 3)))
+              : s.n
+          )
+        );
+        if (p >= 1) clearInterval(cci);
+      }, 32);
+    }
 
     return () => {
       clearTimeout(showT);
