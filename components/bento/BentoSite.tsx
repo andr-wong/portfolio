@@ -26,12 +26,6 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-const MarginNote = ({ children }: { children: React.ReactNode }) => (
-  <aside className="margin-note" aria-hidden="true">
-    {children}
-  </aside>
-);
-
 const Section = ({
   n,
   title,
@@ -205,7 +199,6 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
           </Section>
 
           <Section n="2" title="Contributions" dly="60ms">
-            <MarginNote>Reviewer 2 &mdash; verify dedup logic scales past six sources.</MarginNote>
             <Figure
               n="1"
               tag={p.mapster.tag}
@@ -245,7 +238,6 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
           </Section>
 
           <Section n="3" title="Evaluation" dly="120ms">
-            <MarginNote>Reviewer 1 &mdash; confidence intervals not reported. (It&apos;s a portfolio.)</MarginNote>
             <table className="spec-table results-table">
               <tbody>
                 {BENTO.stats.map((s, i) => (

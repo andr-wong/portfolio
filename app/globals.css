@@ -229,15 +229,6 @@ html, body { background: var(--paper); }
 }
 .paper-doc .secnum { font-size: 11px; color: var(--accent-2); letter-spacing: 0.03em; }
 
-/* margin annotations — inline reviewer callouts, in-flow so they can't
-   drift into the other column of a multi-col section */
-.paper-doc .margin-note {
-  display: block; break-inside: avoid; margin: 0 0 14px;
-  font-family: var(--fm); font-size: 11px; line-height: 1.5; color: var(--accent);
-  padding: 8px 10px; border-left: 2px solid var(--accent);
-  background: var(--accent-soft);
-}
-
 /* ---- spec tables (booktabs style) ---- */
 .paper-doc .spec-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .paper-doc .spec-table tr { break-inside: avoid; }
@@ -283,6 +274,13 @@ html, body { background: var(--paper); }
   break-inside: avoid;
 }
 .paper-doc .fig:last-child { margin-bottom: 0; }
+/* .fig-zero also matches .fig above (same specificity, later in the
+   cascade), whose `margin: 0 0 20px` shorthand resets margin-left/right to
+   0 — clobbering the `margin-left/right: auto` centering set earlier under
+   "Document structure". Restated here, after .fig, so it wins and fig-zero
+   stays aligned with the other 760px-column blocks instead of hugging the
+   page's left edge. */
+.paper-doc .fig-zero { margin-left: auto; margin-right: auto; }
 .paper-doc .fig-plate {
   position: absolute; top: -10px; left: 16px; background: var(--paper);
   padding: 0 8px; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
