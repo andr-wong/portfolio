@@ -3,8 +3,13 @@
 import { useEffect, useState } from 'react';
 import { BENTO, BENTO_PERSONAL } from './data';
 import { useBentoMotion } from './useBentoMotion';
+import { useProjectStatus } from './useProjectStatus';
 import { PersonalWidget } from './PersonalWidget';
 import ContactForm from './ContactForm';
+
+const CI_REPO = 'andr-wong/portfolio';
+const CI_WORKFLOW_URL = `https://github.com/${CI_REPO}/actions/workflows/ci.yml`;
+const CI_BADGE_URL = `https://github.com/${CI_REPO}/actions/workflows/ci.yml/badge.svg`;
 
 type Variant = 'daybreak' | 'eclipse';
 type Page = 'work' | 'personal';
@@ -92,6 +97,7 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
   const stats = isWork ? BENTO.stats : BENTO_PERSONAL.stats;
   const { ref, shown, time, counts } = useBentoMotion(stats);
   const [contactOpen, setContactOpen] = useState(false);
+  const projectStatus = useProjectStatus();
 
   // Eclipse: cursor spotlight tracks across the tall scrollable page.
   // getBoundingClientRect forces a synchronous layout read, so it must not
@@ -262,11 +268,56 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
               ))}
             </ol>
           </Section>
+
+          <Section n="5" title="Status" dly="240ms">
+            <table className="spec-table status-table">
+              <tbody>
+                {[
+                  { label: p.mapster.name, host: p.mapster.host },
+                  { label: p.headcount.name, host: p.headcount.host },
+                ].map(({ label, host }) => {
+                  const check = projectStatus?.projects.find((c) => c.host === host);
+                  return (
+                    <tr key={host}>
+                      <td>{label}</td>
+                      <td className="mono status-cell">
+                        {!check ? (
+                          <span className="status-checking">checking&hellip;</span>
+                        ) : check.ok ? (
+                          <>
+                            <span className="livedot" /> operational
+                            {check.ms != null && <span className="status-ms"> &middot; {check.ms}ms</span>}
+                          </>
+                        ) : (
+                          <span className="status-unreachable">unreachable</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr>
+                  <td>This site &mdash; CI</td>
+                  <td className="mono status-cell">
+                    <a href={CI_WORKFLOW_URL} target="_blank" rel="noreferrer" className="status-ci-link">
+                      {/* eslint-disable-next-line @next/next/no-img-element -- external, live-generated status badge; not a static asset next/image should optimize */}
+                      <img src={CI_BADGE_URL} alt="Build status" width={90} height={20} />
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="mono status-footnote">
+              {projectStatus
+                ? `Checked ${new Date(projectStatus.checkedAt).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit', timeZone: 'Australia/Adelaide' })} ACST.`
+                : 'Checking live projects...'}{' '}
+              Rechecked at most every 5 min.
+            </p>
+          </Section>
         </div>
 
-        <section className="correspondence reveal" style={{ '--d': '240ms' } as React.CSSProperties}>
+        <section className="correspondence reveal" style={{ '--d': '300ms' } as React.CSSProperties}>
           <h2>
-            <span className="secnum mono">&sect;5</span> Correspondence
+            <span className="secnum mono">&sect;6</span> Correspondence
           </h2>
           <p className="corr-line">
             Build something durable.{' '}
