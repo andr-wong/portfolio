@@ -1,27 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback, Fragment } from 'react';
+import { useCallback, useSyncExternalStore, Fragment } from 'react';
 import AmbientField from './AmbientField';
 import BentoSite from './BentoSite';
-
-type Mode = 'light' | 'dark';
-type Page = 'work' | 'personal';
-
-function useStored<T extends string>(key: string, init: T): [T, (v: T | ((prev: T) => T)) => void] {
-  const [v, setV] = useState<T>(() => {
-    try {
-      return (localStorage.getItem(key) as T) || init;
-    } catch {
-      return init;
-    }
-  });
-  useEffect(() => {
-    try {
-      localStorage.setItem(key, v);
-    } catch {}
-  }, [key, v]);
-  return [v, setV];
-}
+import { modePref, pagePref, PAGES, type Page } from './prefs';
 
 const SunIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
@@ -37,17 +19,39 @@ const MoonIcon = () => (
 );
 
 export default function PortfolioApp() {
-  const [mode, setMode] = useStored<Mode>('aw-mode', 'light');
-  const [page, setPage] = useStored<Page>('aw-page', 'work');
+  const mode = useSyncExternalStore(
+    modePref.subscribe,
+    modePref.getSnapshot,
+    modePref.getServerSnapshot
+  );
+  const page = useSyncExternalStore(
+    pagePref.subscribe,
+    pagePref.getSnapshot,
+    pagePref.getServerSnapshot
+  );
 
   const variant = mode === 'light' ? 'daybreak' : 'eclipse';
-  const toggle = useCallback(
-    () => setMode((m) => (m === 'light' ? 'dark' : 'light')),
-    [setMode]
+
+  const toggle = useCallback(() => {
+    modePref.set(mode === 'light' ? 'dark' : 'light');
+  }, [mode]);
+
+  const choosePage = useCallback((next: Page) => pagePref.set(next), []);
+
+  const onTabKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      const delta = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!delta) return;
+      e.preventDefault();
+      const next = PAGES[(PAGES.indexOf(page) + delta + PAGES.length) % PAGES.length];
+      choosePage(next);
+      document.getElementById(`tab-${next}`)?.focus();
+    },
+    [page, choosePage]
   );
 
   return (
-    <div className={`bento-app ${mode}`}>
+    <div className="bento-app">
       <AmbientField mode={mode} />
       <div className="bento-bar">
         <div className="brand">
@@ -57,23 +61,24 @@ export default function PortfolioApp() {
           </div>
         </div>
         <div className="spacer" />
-        <div className="seg" role="tablist">
-          <button
-            className={page === 'work' ? 'on' : ''}
-            onClick={() => setPage('work')}
-            role="tab"
-            aria-selected={page === 'work'}
-          >
-            Work
-          </button>
-          <button
-            className={page === 'personal' ? 'on' : ''}
-            onClick={() => setPage('personal')}
-            role="tab"
-            aria-selected={page === 'personal'}
-          >
-            Personal
-          </button>
+        <div className="seg" role="tablist" aria-label="Sections" onKeyDown={onTabKeyDown}>
+          {PAGES.map((p) => (
+            <button
+              key={p}
+              id={`tab-${p}`}
+              type="button"
+              className={page === p ? 'on' : ''}
+              onClick={() => choosePage(p)}
+              role="tab"
+              aria-selected={page === p}
+              aria-controls="page-panel"
+              // Roving tabindex: only the selected tab is a tab stop, and the
+              // arrow keys move between tabs from there, per the ARIA tabs pattern.
+              tabIndex={page === p ? 0 : -1}
+            >
+              {p === 'work' ? 'Work' : 'Personal'}
+            </button>
+          ))}
         </div>
         <button
           className="modebtn"
@@ -84,7 +89,12 @@ export default function PortfolioApp() {
           {mode === 'light' ? <MoonIcon /> : <SunIcon />}
         </button>
       </div>
-      <div className="bento-site-wrap">
+      <div
+        className="bento-site-wrap"
+        id="page-panel"
+        role="tabpanel"
+        aria-labelledby={`tab-${page}`}
+      >
         {/* key forces BentoSite remount so entrance animation replays on each switch */}
         <Fragment key={`${mode}-${page}`}>
           <BentoSite variant={variant} page={page} />

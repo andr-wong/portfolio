@@ -34,13 +34,25 @@ export const metadata: Metadata = {
   },
 }
 
+// Runs before first paint so a returning visitor never sees the default
+// theme flash before React hydrates and applies their stored choice.
+// Falls back to the OS preference when nothing has been stored yet.
+const THEME_INIT = `try{var m=localStorage.getItem('aw-mode');if(m!=='light'&&m!=='dark'){m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.mode=m}catch(e){document.documentElement.dataset.mode='light'}`
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${sourceSerif4.variable} ${ibmPlexMono.variable}`}>
+    <html
+      lang="en"
+      className={`${sourceSerif4.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+      </head>
       <body>
         <script
           type="application/ld+json"

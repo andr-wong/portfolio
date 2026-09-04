@@ -11,7 +11,7 @@ afterEach(() => {
 
 describe('ContactForm', () => {
   it('renders the form fields into document.body via portal', () => {
-    render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    render(<ContactForm onClose={() => {}} />)
     expect(document.body.querySelector('.contact-modal')).not.toBeNull()
     expect(screen.getByLabelText('Name')).toBeInTheDocument()
   })
@@ -21,7 +21,7 @@ describe('ContactForm', () => {
       'fetch',
       vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }))
     )
-    render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    render(<ContactForm onClose={() => {}} />)
 
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'jane@example.com' } })
@@ -43,7 +43,7 @@ describe('ContactForm', () => {
       'fetch',
       vi.fn(async () => new Response(JSON.stringify({ error: 'Failed to send. Please try again.' }), { status: 502 }))
     )
-    render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    render(<ContactForm onClose={() => {}} />)
 
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'jane@example.com' } })
@@ -59,7 +59,7 @@ describe('ContactForm', () => {
 
   it('closes on Escape', () => {
     const onClose = vi.fn()
-    render(<ContactForm onClose={onClose} variant="daybreak" />)
+    render(<ContactForm onClose={onClose} />)
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(onClose).toHaveBeenCalledOnce()
   })
@@ -69,7 +69,7 @@ describe('ContactForm', () => {
       'fetch',
       vi.fn(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }))
     )
-    const { unmount } = render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    const { unmount } = render(<ContactForm onClose={() => {}} />)
     fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane' } })
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'jane@example.com' } })
     fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'Hello there' } })
@@ -77,7 +77,7 @@ describe('ContactForm', () => {
     await waitFor(() => expect(screen.getByText(/message sent/i)).toBeInTheDocument())
     unmount()
 
-    render(<ContactForm onClose={() => {}} variant="daybreak" />)
+    render(<ContactForm onClose={() => {}} />)
     expect(screen.queryByText(/message sent/i)).toBeNull()
     expect(screen.getByLabelText('Name')).toHaveValue('')
   })

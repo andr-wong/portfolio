@@ -7,21 +7,38 @@
    A flowing two-column document, not a grid of cards.
    ================================================================ */
 
+/* ================================================================
+   Theme tokens live on <html data-mode>, not on a React-rendered
+   class, so an inline script in layout.tsx can set the correct
+   theme before first paint. Without this, a returning visitor whose
+   stored theme differs from the server-rendered default gets a
+   flash of the wrong theme while React hydrates.
+   ================================================================ */
+:root,
+:root[data-mode="light"] {
+  --paper: #f6f4ef; --tile: #fbfaf7; --ink: #1c1b19; --mute: #5c584f; --dim: #8f8a7c;
+  --line: #1c1b19; --accent: #a6291d; --accent-soft: #f1d9d4;
+  --accent-2: #5f7238; --accent-2-soft: rgba(95,114,56,.14);
+  --bar: rgba(246,244,239,0.92); --barline: #1c1b19; --barink: #1c1b19; --barmute: #5c584f;
+  --fd: var(--ff-source-serif), Georgia, serif; --fb: var(--ff-source-serif), Georgia, serif;
+  --fm: var(--ff-ibm-plex-mono), monospace;
+  color-scheme: light;
+}
+:root[data-mode="dark"] {
+  --paper: #131315; --tile: #1b1b1d; --ink: #ece9e2; --mute: #9a978d; --dim: #5f5d56;
+  --line: #ece9e2; --accent: #e2564a; --accent-soft: rgba(226,86,74,.16);
+  --accent-2: #8fae55; --accent-2-soft: rgba(143,174,85,.18);
+  --bar: rgba(19,19,21,0.9); --barline: #ece9e2; --barink: #ece9e2; --barmute: #9a978d;
+  color-scheme: dark;
+}
+html, body { background: var(--paper); }
+
 /* ---- app shell ---- */
 .bento-app {
   min-height: 100vh;
   position: relative;
+  background: var(--paper);
   transition: background 280ms ease-out, color 280ms ease-out;
-}
-.bento-app.light {
-  --paper: #f6f4ef; --ink: #1c1b19; --bar: rgba(246,244,239,0.92);
-  --barline: #1c1b19; --barink: #1c1b19; --barmute: #5c584f; --accent: #a6291d;
-  background: #f6f4ef;
-}
-.bento-app.dark {
-  --paper: #131315; --ink: #ece9e2; --bar: rgba(19,19,21,0.9);
-  --barline: #ece9e2; --barink: #ece9e2; --barmute: #9a978d; --accent: #e2564a;
-  background: #131315;
 }
 
 /* ambient canvas */
@@ -86,39 +103,30 @@
   width: 100%; max-width: 1180px; margin: 0 auto;
   padding: clamp(28px, 4vw, 56px) clamp(14px, 4vw, 40px) clamp(64px, 8vw, 120px);
 }
-.bento-site-wrap .bento-daybreak,
-.bento-site-wrap .bento-eclipse { width: 100%; height: auto; padding: 0; background: transparent; }
+.bento-site-wrap .paper-doc { width: 100%; height: auto; padding: 0; background: transparent; }
 
 @media (max-width: 720px) { .bento-bar .who { display: none; } .bento-bar { gap: 10px; } }
 
 /* ================================================================
-   Theme tokens — DAYBREAK (paper, daylight) / ECLIPSE (paper, night)
+   Document surface. Colour tokens come from :root[data-mode] above;
+   these classes carry structure only, so they stay correct during
+   the frame before React syncs its mode state to the stored value.
    ================================================================ */
-.bento-daybreak {
-  --paper: #f6f4ef; --tile: #fbfaf7; --ink: #1c1b19; --mute: #5c584f; --dim: #8f8a7c;
-  --line: #1c1b19; --accent: #a6291d; --accent-soft: #f1d9d4;
-  --accent-2: #5f7238; --accent-2-soft: rgba(95,114,56,.14);
-  --fd: var(--ff-source-serif), Georgia, serif; --fb: var(--ff-source-serif), Georgia, serif;
-  --fm: var(--ff-ibm-plex-mono), monospace;
+.paper-doc {
   height: 100%; width: 100%; background: transparent; color: var(--ink);
   font-family: var(--fb); -webkit-font-smoothing: antialiased; box-sizing: border-box;
   position: relative;
-}
-.bento-eclipse {
-  --paper: #131315; --tile: #1b1b1d; --ink: #ece9e2; --mute: #9a978d; --dim: #5f5d56;
-  --line: #ece9e2; --accent: #e2564a; --accent-soft: rgba(226,86,74,.16);
-  --accent-2: #8fae55; --accent-2-soft: rgba(143,174,85,.18);
-  --fd: var(--ff-source-serif), Georgia, serif; --fb: var(--ff-source-serif), Georgia, serif;
-  --fm: var(--ff-ibm-plex-mono), monospace;
-  height: 100%; width: 100%; background: transparent; color: var(--ink);
-  font-family: var(--fb); -webkit-font-smoothing: antialiased; box-sizing: border-box;
-  position: relative; overflow: hidden;
 }
 .paper-doc * { box-sizing: border-box; }
 .paper-doc a { color: inherit; text-decoration: none; }
 .paper-doc .mono { font-family: var(--fm); }
 
-.bento-eclipse .spotlight {
+/* The spotlight is always in the DOM so markup stays identical across
+   themes (no hydration mismatch); only the dark theme reveals it. */
+.spotlight { display: none; }
+:root[data-mode="dark"] .paper-doc { overflow: hidden; }
+:root[data-mode="dark"] .spotlight {
+  display: block;
   position: absolute; inset: 0; pointer-events: none; z-index: 3; mix-blend-mode: screen;
   --mx: 50%; --my: 18%;
   background: radial-gradient(circle 320px at var(--mx) var(--my), rgba(226,86,74,.14), rgba(226,86,74,.04) 45%, transparent 70%);

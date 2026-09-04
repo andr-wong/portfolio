@@ -412,10 +412,12 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
   };
 
   return (
-    <div className={`bento-${variant} paper-doc${shown ? ' in' : ''}`} ref={ref}>
-      {variant === 'eclipse' && <div className="spotlight" />}
+    <div className={`paper-doc${shown ? ' in' : ''}`} ref={ref}>
+      {/* Always rendered so the markup is theme-independent; CSS reveals it
+          only under :root[data-mode="dark"]. */}
+      <div className="spotlight" />
       {isWork ? renderWork() : renderPersonal()}
-      {contactOpen && <ContactForm onClose={() => setContactOpen(false)} variant={variant} />}
+      {contactOpen && <ContactForm onClose={() => setContactOpen(false)} />}
     </div>
   );
 }
