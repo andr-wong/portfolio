@@ -22,15 +22,33 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.dev'
 
+const TITLE = 'Andrew Wong — Software Engineer'
+const SHORT_DESCRIPTION =
+  'CS student at the University of Adelaide specialising in software engineering and AI.'
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Andrew Wong — Software Engineer',
+  title: TITLE,
   description:
     'Portfolio of Andrew Wong, CS student at the University of Adelaide specialising in software engineering and AI. Adelaide / Remote.',
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    title: 'Andrew Wong — Software Engineer',
-    description:
-      'CS student at the University of Adelaide specialising in software engineering and AI.',
+    title: TITLE,
+    description: SHORT_DESCRIPTION,
+    url: SITE_URL,
+    siteName: 'Andrew Wong',
+    type: 'website',
+  },
+  // opengraph-image.tsx and twitter-image are separate file conventions in
+  // Next.js — declaring this explicitly (rather than assuming Open Graph
+  // tags are enough) is what makes X/Twitter reliably render the same
+  // preview card as LinkedIn/Slack/iMessage instead of falling back to a
+  // generic link.
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: SHORT_DESCRIPTION,
+    images: ['/opengraph-image'],
   },
 }
 
