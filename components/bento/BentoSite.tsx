@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { BENTO, BENTO_PERSONAL } from './data';
 import { useBentoMotion } from './useBentoMotion';
 import { useProjectStatus } from './useProjectStatus';
 import { PersonalWidget } from './PersonalWidget';
-import ContactForm from './ContactForm';
 
 const CI_REPO = 'andr-wong/portfolio';
 const CI_WORKFLOW_URL = `https://github.com/${CI_REPO}/actions/workflows/ci.yml`;
@@ -17,6 +16,7 @@ type Page = 'work' | 'personal';
 interface BentoSiteProps {
   variant: Variant;
   page: Page;
+  onOpenContact: () => void;
 }
 
 const GithubIcon = () => (
@@ -92,11 +92,10 @@ const Figure = ({
   </figure>
 );
 
-export default function BentoSite({ variant, page }: BentoSiteProps) {
+export default function BentoSite({ variant, page, onOpenContact }: BentoSiteProps) {
   const isWork = page === 'work';
   const stats = isWork ? BENTO.stats : BENTO_PERSONAL.stats;
   const { ref, shown, time, counts } = useBentoMotion(stats);
-  const [contactOpen, setContactOpen] = useState(false);
   const projectStatus = useProjectStatus();
 
   // Eclipse: cursor spotlight tracks across the tall scrollable page.
@@ -321,7 +320,7 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
           </h2>
           <p className="corr-line">
             Build something durable.{' '}
-            <button className="btn-corr" onClick={() => setContactOpen(true)}>
+            <button className="btn-corr" onClick={onOpenContact}>
               Send correspondence &rarr;
             </button>
           </p>
@@ -444,7 +443,7 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
           </h2>
           <p className="corr-line">
             {bp.contactLine}{' '}
-            <button className="btn-corr" onClick={() => setContactOpen(true)}>
+            <button className="btn-corr" onClick={onOpenContact}>
               Send correspondence &rarr;
             </button>
           </p>
@@ -471,7 +470,6 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
           only under :root[data-mode="dark"]. */}
       <div className="spotlight" />
       {isWork ? renderWork() : renderPersonal()}
-      {contactOpen && <ContactForm onClose={() => setContactOpen(false)} />}
     </div>
   );
 }

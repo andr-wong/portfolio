@@ -97,6 +97,14 @@ html, body { background: var(--paper); }
 .bento-bar .modebtn:active { transform: scale(0.88); }
 .bento-bar .modebtn svg { width: 16px; height: 16px; }
 
+.bento-bar .cmdk-hint {
+  font-size: 11px; letter-spacing: 0.02em; color: var(--barmute); cursor: pointer;
+  border: 1px solid var(--barline); background: transparent; border-radius: 3px;
+  padding: 3px 7px; flex: 0 0 auto; transition: color 180ms ease-out, border-color 180ms ease-out;
+}
+.bento-bar .cmdk-hint:hover { color: var(--barink); border-color: var(--barink); }
+@media (max-width: 560px) { .bento-bar .cmdk-hint { display: none; } }
+
 /* ---- scrollable content wrap ---- */
 .bento-site-wrap {
   position: relative; z-index: 1;
@@ -567,3 +575,39 @@ html, body { background: var(--paper); }
 }
 .contact-modal-success { text-align: center; }
 .contact-modal-success p { margin-bottom: 16px; }
+
+/* Command palette — same document surface as the contact modal, but a
+   list/index rather than a form. */
+.cmdk-overlay {
+  position: fixed; inset: 0; background: rgba(20, 19, 17, 0.5); backdrop-filter: blur(2px);
+  display: flex; align-items: flex-start; justify-content: center; z-index: 100;
+  padding: 20px; padding-top: clamp(64px, 14vh, 140px);
+}
+.cmdk-panel {
+  background: var(--paper); color: var(--ink); border: 1.5px solid var(--line);
+  width: 100%; max-width: 480px; max-height: 70vh; display: flex; flex-direction: column;
+  font-family: var(--fb);
+}
+.cmdk-input {
+  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line);
+  padding: 16px 18px; color: var(--ink); font-size: 14px; letter-spacing: 0.01em;
+}
+.cmdk-input:focus { outline: none; }
+.cmdk-input::placeholder { color: var(--dim); }
+.cmdk-list { overflow-y: auto; padding: 8px; }
+.cmdk-group {
+  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+  padding: 10px 10px 4px;
+}
+.cmdk-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 9px 10px; font-size: 14px; cursor: pointer; color: var(--ink);
+}
+.cmdk-item.on { background: var(--accent-soft); color: var(--accent); }
+.cmdk-external { color: var(--dim); font-size: 13px; }
+.cmdk-item.on .cmdk-external { color: var(--accent); }
+.cmdk-empty { padding: 20px 10px; color: var(--dim); font-size: 13px; text-align: center; }
+.cmdk-footer {
+  display: flex; gap: 16px; padding: 10px 16px; border-top: 1px solid var(--line);
+  font-size: 10.5px; color: var(--dim); letter-spacing: 0.02em;
+}

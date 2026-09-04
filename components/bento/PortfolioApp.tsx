@@ -1,8 +1,10 @@
 'use client';
 
-import { useCallback, useSyncExternalStore, Fragment } from 'react';
+import { useCallback, useState, useSyncExternalStore, Fragment } from 'react';
 import AmbientField from './AmbientField';
 import BentoSite from './BentoSite';
+import ContactForm from './ContactForm';
+import CommandPalette from './CommandPalette';
 import { modePref, pagePref, PAGES, type Page } from './prefs';
 
 const SunIcon = () => (
@@ -31,6 +33,8 @@ export default function PortfolioApp() {
   );
 
   const variant = mode === 'light' ? 'daybreak' : 'eclipse';
+  const [contactOpen, setContactOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
 
   const toggle = useCallback(() => {
     modePref.set(mode === 'light' ? 'dark' : 'light');
@@ -81,6 +85,14 @@ export default function PortfolioApp() {
           ))}
         </div>
         <button
+          className="cmdk-hint mono"
+          onClick={() => setPaletteOpen(true)}
+          aria-label="Open command palette"
+          title="Command palette"
+        >
+          &#8984;K
+        </button>
+        <button
           className="modebtn"
           onClick={toggle}
           aria-label={mode === 'light' ? 'Switch to dark' : 'Switch to light'}
@@ -97,9 +109,21 @@ export default function PortfolioApp() {
       >
         {/* key forces BentoSite remount so entrance animation replays on each switch */}
         <Fragment key={`${mode}-${page}`}>
-          <BentoSite variant={variant} page={page} />
+          <BentoSite variant={variant} page={page} onOpenContact={() => setContactOpen(true)} />
         </Fragment>
       </div>
+      {/* Rendered here, not inside BentoSite, so switching page/theme mid-draft
+          doesn't unmount the form and lose whatever the visitor typed. */}
+      {contactOpen && <ContactForm onClose={() => setContactOpen(false)} />}
+      <CommandPalette
+        open={paletteOpen}
+        onOpenChange={setPaletteOpen}
+        mode={mode}
+        page={page}
+        onNavigate={choosePage}
+        onToggleTheme={toggle}
+        onOpenContact={() => setContactOpen(true)}
+      />
     </div>
   );
 }
