@@ -71,6 +71,37 @@ describe('POST /api/contact', () => {
     expect(res.status).toBe(400)
   })
 
+  it('rejects a name over the length limit', async () => {
+    const res = await POST(
+      makeRequest(
+        { name: 'x'.repeat(201), email: 'a@b.com', message: 'hi' },
+        { ip: '203.0.113.8' }
+      )
+    )
+    expect(res.status).toBe(400)
+  })
+
+  it('rejects an email over the length limit', async () => {
+    const res = await POST(
+      makeRequest(
+        { name: 'A', email: `${'x'.repeat(315)}@b.com`, message: 'hi' },
+        { ip: '203.0.113.9' }
+      )
+    )
+    expect(res.status).toBe(400)
+  })
+
+  it('rejects requests when NEXT_PUBLIC_SITE_URL is unset, rather than skipping CSRF', async () => {
+    delete process.env.NEXT_PUBLIC_SITE_URL
+    const res = await POST(
+      makeRequest(
+        { name: 'A', email: 'a@b.com', message: 'hi' },
+        { referer: 'https://evil.example.com/', ip: '203.0.113.10' }
+      )
+    )
+    expect(res.status).toBe(403)
+  })
+
   it('sends via Resend and returns 200 on a valid request', async () => {
     const res = await POST(
       makeRequest({ name: 'A', email: 'a@b.com', message: 'hi' }, { ip: '203.0.113.5' })

@@ -2,6 +2,18 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MAX_MESSAGE_LENGTH = 2000
+const MAX_NAME_LENGTH = 200
+const MAX_EMAIL_LENGTH = 320 // RFC 5321 upper bound
+
+// Same fallback used by app/layout.tsx, app/sitemap.ts, and app/robots.ts —
+// keeping this one in sync matters more than the others: if
+// NEXT_PUBLIC_SITE_URL is ever unset in production, this must not return
+// falsy, or the CSRF check below silently stops checking anything. Read
+// per-request rather than hoisted to module scope, matching every other env
+// read in this file, so it reflects the environment at call time.
+function getSiteUrl(): string {
+  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.dev'
+}
 
 // Simple in-memory rate limiter (resets on deploy/cold start)
 const requestCounts = new Map<string, { count: number; resetAt: number }>()
@@ -31,9 +43,8 @@ interface ContactBody {
 
 export async function POST(req: NextRequest) {
   // CSRF: check referer matches our origin
-  const origin = process.env.NEXT_PUBLIC_SITE_URL
   const referer = req.headers.get('referer') ?? ''
-  if (origin && !referer.startsWith(origin)) {
+  if (!referer.startsWith(getSiteUrl())) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -59,7 +70,13 @@ export async function POST(req: NextRequest) {
   if (typeof name !== 'string' || name.trim().length < 1) {
     return NextResponse.json({ error: 'Name is required' }, { status: 400 })
   }
-  if (typeof email !== 'string' || !EMAIL_REGEX.test(email)) {
+  if (name.length > MAX_NAME_LENGTH) {
+    return NextResponse.json(
+      { error: `Name must be under ${MAX_NAME_LENGTH} characters` },
+      { status: 400 }
+    )
+  }
+  if (typeof email !== 'string' || email.length > MAX_EMAIL_LENGTH || !EMAIL_REGEX.test(email)) {
     return NextResponse.json(
       { error: 'A valid email address is required' },
       { status: 400 }
