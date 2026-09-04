@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { BENTO, BENTO_PERSONAL } from './data';
 import { useBentoMotion } from './useBentoMotion';
-import { ParticleTextEffect } from '@/components/ui/particle-text-effect';
 import { PersonalWidget } from './PersonalWidget';
 import ContactForm from './ContactForm';
 
@@ -134,17 +133,11 @@ export default function BentoSite({ variant, page }: BentoSiteProps) {
     };
   }, [variant, page, ref]);
 
-  const PARTICLE_WORDS = ['AW', "CS '26", 'Adelaide', 'Builder'];
-
   const FigureZero = ({ city }: { city: string }) => (
     <figure className="fig fig-zero reveal" style={{ '--d': '120ms' } as React.CSSProperties}>
       <div className="fig-plate mono">FIG. 0</div>
       <div className="fig-zero-visual" aria-hidden="true">
-        <ParticleTextEffect
-          words={PARTICLE_WORDS}
-          interval={300}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-        />
+        <span className="fig-zero-mark">AW</span>
       </div>
       <figcaption className="mono">Subject, identifying marks visible &mdash; {city}.</figcaption>
     </figure>

@@ -199,10 +199,18 @@ html, body { background: var(--paper); }
 .paper-doc .kw-label { color: var(--dim); }
 .paper-doc .status-line { font-size: 11px; color: var(--accent); letter-spacing: 0.04em; margin-top: 8px; }
 
-/* figure zero — the "subject" */
+/* figure zero — the "subject". A static monogram plate, not a photo: the
+   caption's "identifying marks visible" is a wry academic-paper conceit
+   (subjects are usually redacted; this one isn't), not a promise of an
+   actual portrait. */
 .paper-doc .fig-zero { margin-top: clamp(24px, 3.4vw, 36px); position: relative; }
 .paper-doc .fig-zero-visual {
-  position: relative; height: 150px; border: 1px solid var(--line); overflow: hidden; background: #14130f;
+  position: relative; height: 150px; border: 1px solid var(--line); overflow: hidden;
+  background: var(--tile); display: flex; align-items: center; justify-content: center;
+}
+.paper-doc .fig-zero-mark {
+  font-family: var(--fd); font-style: italic; font-weight: 600;
+  font-size: clamp(40px, 7vw, 64px); letter-spacing: -0.01em; color: var(--accent);
 }
 .paper-doc .fig-zero figcaption {
   font-size: 10.5px; color: var(--dim); letter-spacing: 0.04em; margin-top: 8px; text-align: center;
