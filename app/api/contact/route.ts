@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
+import { BENTO } from '@/components/bento/data'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MAX_MESSAGE_LENGTH = 2000
@@ -12,7 +13,7 @@ const MAX_EMAIL_LENGTH = 320 // RFC 5321 upper bound
 // per-request rather than hoisted to module scope, matching every other env
 // read in this file, so it reflects the environment at call time.
 function getSiteUrl(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.dev'
+  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.com'
 }
 
 // Simple in-memory rate limiter (resets on deploy/cold start)
@@ -109,8 +110,14 @@ export async function POST(req: NextRequest) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Portfolio Contact <contact@andrwong.dev>',
-      to: ['andrew@andrwong.dev'],
+      from: 'Portfolio Contact <contact@andrwong.com>',
+      // The real destination, not a second hardcoded literal — this was
+      // previously 'andrew@andrwong.dev', a domain with no DNS records at
+      // all (confirmed via dig: NXDOMAIN), so every successful-looking send
+      // was actually bouncing. Every other contact surface on the site
+      // already uses BENTO.contact.email; this one just hadn't been wired
+      // to the same source of truth.
+      to: [BENTO.contact.email],
       subject: `Portfolio contact from ${name.trim()}`,
       text: `Name: ${name.trim()}\nEmail: ${email}\n\n${message.trim()}`,
     }),

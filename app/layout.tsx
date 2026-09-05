@@ -20,7 +20,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 })
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.dev'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.com'
 
 const TITLE = 'Andrew Wong — Software Engineer'
 const SHORT_DESCRIPTION =

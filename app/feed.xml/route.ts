@@ -5,7 +5,7 @@ import { BENTO } from '@/components/bento/data'
 // rather than re-run on every feed-reader poll.
 export const dynamic = 'force-static'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.dev'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.com'
 
 function escapeXml(s: string): string {
   return s
@@ -38,7 +38,7 @@ export async function GET() {
   <channel>
     <title>Andrew Wong — Chronology</title>
     <link>${SITE_URL}</link>
-    <description>Career and project milestones from andrwong.dev.</description>
+    <description>Career and project milestones from andrwong.com.</description>
     <language>en-au</language>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />
 ${items}

@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 import { POST } from './route'
 
-const SITE_URL = 'https://andrwong.dev'
+const SITE_URL = 'https://andrwong.com'
 
 function makeRequest(body: unknown, opts?: { referer?: string; ip?: string }) {
   return new NextRequest(`${SITE_URL}/api/contact`, {
