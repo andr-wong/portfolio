@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { BENTO, BENTO_PERSONAL } from './data';
+import { BENTO, BENTO_PERSONAL, RESUME_URL } from './data';
 import { useBentoMotion } from './useBentoMotion';
 import { useProjectStatus } from './useProjectStatus';
 import { PersonalWidget } from './PersonalWidget';
@@ -28,6 +28,14 @@ const GithubIcon = () => (
 const LinkedInIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
     <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 12.27h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-11h2.88v1.5h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.59v6.47z" />
+  </svg>
+);
+
+const ResumeIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <path d="M14 2v6h6" />
+    <path d="M9 15h6M9 11h2" />
   </svg>
 );
 
@@ -332,6 +340,10 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
             &middot;{' '}
             <a href={BENTO.contact.linkedin} target="_blank" rel="noreferrer">
               <LinkedInIcon /> LinkedIn
+            </a>{' '}
+            &middot;{' '}
+            <a href={RESUME_URL} target="_blank" rel="noreferrer">
+              <ResumeIcon /> Resume (PDF)
             </a>
           </p>
         </section>

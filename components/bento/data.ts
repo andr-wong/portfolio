@@ -1,3 +1,5 @@
+export const RESUME_URL = '/andrew-wong-resume.pdf';
+
 export type StatItem = { n: number | string; suffix: string; cap: string };
 export type Skill = [string, number];
 export type TimelineEntry = [string, string];

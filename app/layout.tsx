@@ -31,7 +31,10 @@ export const metadata: Metadata = {
   title: TITLE,
   description:
     'Portfolio of Andrew Wong, CS student at the University of Adelaide specialising in software engineering and AI. Adelaide / Remote.',
-  alternates: { canonical: SITE_URL },
+  alternates: {
+    canonical: SITE_URL,
+    types: { 'application/rss+xml': '/feed.xml' },
+  },
   openGraph: {
     title: TITLE,
     description: SHORT_DESCRIPTION,

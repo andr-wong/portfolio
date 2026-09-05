@@ -116,4 +116,12 @@ describe('CommandPalette', () => {
     fireEvent.change(screen.getByRole('combobox'), { target: { value: 'xyzzy' } })
     expect(screen.getByText('No matches.')).toBeInTheDocument()
   })
+
+  it('opens the resume PDF in a new tab', () => {
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+    const { onOpenChange } = setup()
+    fireEvent.click(screen.getByText('Download resume (PDF)'))
+    expect(openSpy).toHaveBeenCalledWith('/andrew-wong-resume.pdf', '_blank', 'noopener,noreferrer')
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+  })
 })

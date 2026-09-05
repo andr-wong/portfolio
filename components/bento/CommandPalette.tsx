@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { BENTO } from './data';
+import { BENTO, RESUME_URL } from './data';
 import type { Mode, Page } from './prefs';
 
 interface CommandPaletteProps {
@@ -95,6 +95,20 @@ export default function CommandPalette({
       group: 'Connect',
       external: true,
       run: () => window.open(BENTO.contact.linkedin, '_blank', 'noopener,noreferrer'),
+    });
+    list.push({
+      id: 'resume',
+      label: 'Download resume (PDF)',
+      group: 'Connect',
+      external: true,
+      run: () => window.open(RESUME_URL, '_blank', 'noopener,noreferrer'),
+    });
+    list.push({
+      id: 'feed',
+      label: 'Subscribe to chronology (RSS)',
+      group: 'Connect',
+      external: true,
+      run: () => window.open('/feed.xml', '_blank', 'noopener,noreferrer'),
     });
     for (const proj of [BENTO.projects.mapster, BENTO.projects.headcount]) {
       if (!proj.url) continue;
