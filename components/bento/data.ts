@@ -2,6 +2,7 @@ export const RESUME_URL = '/andrew-wong-resume.pdf';
 
 export type StatItem = { n: number | string; suffix: string; cap: string };
 export type Skill = [string, number];
+
 export type TimelineEntry = [string, string];
 export type NowEntry = [string, string];
 export type PrincipleEntry = [string, string];
@@ -78,6 +79,20 @@ export const BENTO = {
       name: 'HCF Router',
       desc: 'Someone used to sit down every week and manually match passengers to drivers. Now Dijkstra\'s algorithm does it — high-priority passengers seated first, everyone else route-optimised by total distance. Addresses save between runs, groups and destinations are configurable, and the whole thing renders on a live map with autocomplete on the address fields.',
       stack: ['Next.js', 'MapLibre', 'OSRM', 'Supabase', 'Mapbox Geocoding', 'Zustand'],
+    } as ProjectData,
+  },
+  building: {
+    churchApp: {
+      tag: 'WIP_001',
+      name: 'Church Management App',
+      desc: "Hope Church currently pays a recurring yearly fee for externally-hosted management software. I'm building an in-house replacement — same job, but something we actually own and can change ourselves as the church's needs shift, instead of waiting on a vendor's roadmap.",
+      stack: [],
+    } as ProjectData,
+    reimbursements: {
+      tag: 'WIP_002',
+      name: 'Reimbursement Automation',
+      desc: "Reimbursements at Hope Church currently mean emailing different people, then someone hand-entering every cost and GST amount into a spreadsheet. I'm replacing that with a single upload: staff photograph their receipts, an AI agent reads the costs and GST straight off them, and the totals come out the other end without anyone typing a number.",
+      stack: [],
     } as ProjectData,
   },
   timeline: [

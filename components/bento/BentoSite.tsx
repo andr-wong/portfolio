@@ -162,6 +162,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
 
   const renderWork = () => {
     const p = BENTO.projects;
+    const b = BENTO.building;
     const keywords = BENTO.skills
       .slice(0, 5)
       .map(([k]) => k)
@@ -262,7 +263,30 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
             />
           </Section>
 
-          <Section n="3" title="Evaluation" dly="120ms">
+          <Section n="3" title="Currently building" dly="120ms">
+            <Figure
+              n="4"
+              tag={b.churchApp.tag}
+              name={b.churchApp.name}
+              desc={b.churchApp.desc}
+              tags={b.churchApp.stack}
+              meta={<span className="fig-wip">in progress</span>}
+              quiet
+              dly="0ms"
+            />
+            <Figure
+              n="5"
+              tag={b.reimbursements.tag}
+              name={b.reimbursements.name}
+              desc={b.reimbursements.desc}
+              tags={b.reimbursements.stack}
+              meta={<span className="fig-wip">in progress</span>}
+              quiet
+              dly="60ms"
+            />
+          </Section>
+
+          <Section n="4" title="Evaluation" dly="180ms">
             <table className="spec-table results-table">
               <tbody>
                 {BENTO.stats.map((s, i) => (
@@ -278,7 +302,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
             </table>
           </Section>
 
-          <Section n="4" title="Chronology" dly="180ms">
+          <Section n="5" title="Chronology" dly="240ms">
             <ol className="ref-list mono">
               {BENTO.timeline.map(([y, t]) => (
                 <li key={y}>
@@ -288,7 +312,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
             </ol>
           </Section>
 
-          <Section n="5" title="Status" dly="240ms">
+          <Section n="6" title="Status" dly="300ms">
             <table className="spec-table status-table">
               <tbody>
                 {[
@@ -334,9 +358,9 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
           </Section>
         </div>
 
-        <section className="correspondence reveal" style={{ '--d': '300ms' } as React.CSSProperties}>
+        <section className="correspondence reveal" style={{ '--d': '360ms' } as React.CSSProperties}>
           <h2>
-            <span className="secnum mono">&sect;6</span> Correspondence
+            <span className="secnum mono">&sect;7</span> Correspondence
           </h2>
           <p className="corr-line">
             Build something durable.{' '}

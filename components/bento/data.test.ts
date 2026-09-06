@@ -37,6 +37,25 @@ describe('BENTO (work page data)', () => {
     const tags = Object.values(BENTO.projects).map((p) => p.tag)
     expect(new Set(tags).size).toBe(tags.length)
   })
+
+  it('every in-progress ("building") entry has a non-empty tag, name, and desc', () => {
+    const building = Object.values(BENTO.building)
+    expect(building.length).toBeGreaterThan(0)
+    for (const entry of building) {
+      expect(entry.tag.length).toBeGreaterThan(0)
+      expect(entry.name.length).toBeGreaterThan(0)
+      expect(entry.desc.length).toBeGreaterThan(0)
+      // Unlike shipped projects, an in-progress entry legitimately may not
+      // have a settled stack yet — no assertion on entry.stack here.
+    }
+  })
+
+  it('building tags do not collide with shipped project tags', () => {
+    const projectTags = Object.values(BENTO.projects).map((p) => p.tag)
+    const buildingTags = Object.values(BENTO.building).map((p) => p.tag)
+    const all = [...projectTags, ...buildingTags]
+    expect(new Set(all).size).toBe(all.length)
+  })
 })
 
 describe('BENTO_PERSONAL (personal page data)', () => {

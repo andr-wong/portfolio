@@ -330,11 +330,12 @@ html, body { background: var(--paper); }
 .paper-doc .fig h3 {
   font-family: var(--fd); font-weight: 600; font-size: 19px; letter-spacing: -0.005em; margin: 2px 0 0; width: 100%;
 }
-.paper-doc .fig-award, .paper-doc .fig-live {
+.paper-doc .fig-award, .paper-doc .fig-live, .paper-doc .fig-wip {
   font-family: var(--fm); font-size: 9.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent);
   border: 1px solid var(--accent); padding: 2px 7px; display: inline-flex; align-items: center; gap: 5px; margin-left: auto;
 }
 .paper-doc .fig-live { color: var(--accent-2); border-color: var(--accent-2); }
+.paper-doc .fig-wip { color: var(--dim); border-color: var(--dim); }
 .paper-doc .livedot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2); }
 .paper-doc .fig p { font-size: 13.5px; line-height: 1.55; color: var(--mute); margin: 10px 0 0; }
 .paper-doc .fig-meta {
