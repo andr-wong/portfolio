@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { BENTO, BENTO_PERSONAL, RESUME_URL } from './data';
 import { useBentoMotion } from './useBentoMotion';
 import { useProjectStatus } from './useProjectStatus';
@@ -66,6 +67,7 @@ const Figure = ({
   tags,
   host,
   href,
+  caseStudyHref,
   meta,
   quiet,
   dly,
@@ -77,6 +79,7 @@ const Figure = ({
   tags: string[];
   host?: string;
   href?: string;
+  caseStudyHref?: string;
   meta?: React.ReactNode;
   quiet?: boolean;
   dly?: string;
@@ -97,6 +100,13 @@ const Figure = ({
       {tags.join(' · ')}
       {host && <span className="fig-doi">doi:{host}</span>}
     </p>
+    {/* Above .fig-cover's z-index so this stays clickable through the
+        full-card external-link overlay. */}
+    {caseStudyHref && (
+      <Link className="fig-casestudy mono" href={caseStudyHref}>
+        Full case study &rarr;
+      </Link>
+    )}
   </figure>
 );
 
@@ -220,6 +230,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
               tags={p.mapster.stack}
               host={p.mapster.host}
               href={p.mapster.url}
+              caseStudyHref="/work/mapster"
               meta={<span className="fig-award">&#9733; {p.mapster.award}</span>}
               dly="0ms"
             />
@@ -231,6 +242,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
               tags={p.headcount.stack}
               host={p.headcount.host}
               href={p.headcount.url}
+              caseStudyHref="/work/headcount"
               meta={
                 <span className="fig-live">
                   <span className="livedot" />

@@ -105,6 +105,13 @@ html, body { background: var(--paper); }
 .bento-bar .cmdk-hint:hover { color: var(--barink); border-color: var(--barink); }
 @media (max-width: 560px) { .bento-bar .cmdk-hint { display: none; } }
 
+.bento-bar .back-link {
+  font-size: 11.5px; letter-spacing: 0.02em; color: var(--barmute);
+  border-bottom: 1px solid transparent; transition: color 180ms ease-out, border-color 180ms ease-out;
+}
+.bento-bar .back-link:hover { color: var(--barink); border-color: currentColor; }
+.bento-bar a.brand { text-decoration: none; }
+
 /* ---- scrollable content wrap ---- */
 .bento-site-wrap {
   position: relative; z-index: 1;
@@ -169,7 +176,9 @@ html, body { background: var(--paper); }
 .paper-doc .fig-zero,
 .paper-doc .paper-body,
 .paper-doc .correspondence,
-.paper-doc .doc-footer {
+.paper-doc .doc-footer,
+.paper-doc .casestudy-body,
+.paper-doc .casestudy-nav {
   max-width: 760px; margin-left: auto; margin-right: auto;
 }
 
@@ -236,6 +245,16 @@ html, body { background: var(--paper); }
   margin: 0 0 14px; break-after: avoid; display: flex; align-items: baseline; gap: 8px;
 }
 .paper-doc .secnum { font-size: 11px; color: var(--accent-2); letter-spacing: 0.03em; }
+
+/* ---- case study (single-column prose, unlike the two-column paper-body) ---- */
+.paper-doc .casestudy-body { margin-top: clamp(34px, 5vw, 52px); }
+.paper-doc .casestudy-text { font-size: 15.5px; line-height: 1.62; margin: 0 0 12px; text-wrap: pretty; }
+.paper-doc .casestudy-text:last-child { margin-bottom: 0; }
+.paper-doc .casestudy-text.mono { font-size: 13px; color: var(--mute); }
+.paper-doc .casestudy-nav {
+  margin-top: clamp(32px, 4.5vw, 48px); padding-top: 22px; border-top: 1.5px solid var(--line);
+  font-size: 13px;
+}
 
 /* ---- spec tables (booktabs style) ---- */
 .paper-doc .spec-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -323,6 +342,12 @@ html, body { background: var(--paper); }
   display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; position: relative; z-index: 1;
 }
 .paper-doc .fig-doi { color: var(--accent); }
+
+.paper-doc .fig-casestudy {
+  display: inline-block; position: relative; z-index: 3; margin-top: 8px;
+  font-size: 11px; color: var(--accent); border-bottom: 1px solid transparent;
+}
+.paper-doc .fig-casestudy:hover { border-color: currentColor; }
 
 .paper-doc .fig-supp { padding: 0; overflow: hidden; }
 
