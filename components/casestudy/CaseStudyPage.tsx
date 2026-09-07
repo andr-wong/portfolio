@@ -25,7 +25,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
               <span className="secnum mono">&sect;{i + 1}</span> {section.heading}
             </h2>
             {section.paragraphs.map((p, j) => (
-              <p className="casestudy-text" key={j}>
+              <p className="prose-text" key={j}>
                 {p}
               </p>
             ))}

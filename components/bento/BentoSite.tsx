@@ -356,11 +356,24 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
               Rechecked at most every 5 min.
             </p>
           </Section>
+
+          <Section n="7" title="Colophon" dly="360ms">
+            <p className="prose-text">
+              Built with Next.js 16 and React 19, typeset in Source Serif 4 and IBM Plex Mono.
+              Every push runs lint, a typecheck, and the full test suite before it deploys (see
+              &sect;6, Status).
+            </p>
+            <p className="mono see-also">
+              <a href={`https://github.com/${CI_REPO}`} target="_blank" rel="noreferrer">
+                <GithubIcon /> View source &#8599;
+              </a>
+            </p>
+          </Section>
         </div>
 
-        <section className="correspondence reveal" style={{ '--d': '360ms' } as React.CSSProperties}>
+        <section className="correspondence reveal" style={{ '--d': '420ms' } as React.CSSProperties}>
           <h2>
-            <span className="secnum mono">&sect;7</span> Correspondence
+            <span className="secnum mono">&sect;8</span> Correspondence
           </h2>
           <p className="corr-line">
             Build something durable.{' '}

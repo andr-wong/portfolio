@@ -248,9 +248,9 @@ html, body { background: var(--paper); }
 
 /* ---- case study (single-column prose, unlike the two-column paper-body) ---- */
 .paper-doc .casestudy-body { margin-top: clamp(34px, 5vw, 52px); }
-.paper-doc .casestudy-text { font-size: 15.5px; line-height: 1.62; margin: 0 0 12px; text-wrap: pretty; }
-.paper-doc .casestudy-text:last-child { margin-bottom: 0; }
-.paper-doc .casestudy-text.mono { font-size: 13px; color: var(--mute); }
+.paper-doc .prose-text { font-size: 15.5px; line-height: 1.62; margin: 0 0 12px; text-wrap: pretty; }
+.paper-doc .prose-text:last-child { margin-bottom: 0; }
+.paper-doc .prose-text.mono { font-size: 13px; color: var(--mute); }
 .paper-doc .casestudy-nav {
   margin-top: clamp(32px, 4.5vw, 48px); padding-top: 22px; border-top: 1.5px solid var(--line);
   font-size: 13px;
