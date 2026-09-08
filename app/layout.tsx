@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Source_Serif_4, IBM_Plex_Mono } from 'next/font/google'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
@@ -55,10 +55,24 @@ export const metadata: Metadata = {
   },
 }
 
+// The light paper colour, matching :root[data-mode="light"] in globals.css —
+// just the default for the instant before THEME_INIT (below) corrects it to
+// whichever theme actually applies. A plain string (not a
+// prefers-color-scheme media array) so there's exactly one
+// <meta name="theme-color"> element for THEME_INIT and prefs.ts's
+// setMetaThemeColor to update, rather than several conditionally-active ones
+// that could disagree with the resolved (possibly manually-toggled) theme.
+export const viewport: Viewport = {
+  themeColor: '#f6f4ef',
+}
+
 // Runs before first paint so a returning visitor never sees the default
-// theme flash before React hydrates and applies their stored choice.
-// Falls back to the OS preference when nothing has been stored yet.
-const THEME_INIT = `try{var m=localStorage.getItem('aw-mode');if(m!=='light'&&m!=='dark'){m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.mode=m}catch(e){document.documentElement.dataset.mode='light'}`
+// theme flash before React hydrates and applies their stored choice. Falls
+// back to the OS preference when nothing has been stored yet. Also updates
+// <meta name="theme-color"> to match, for the same reason (see viewport,
+// above) — kept in sync afterwards by prefs.ts's setMetaThemeColor whenever
+// the visitor toggles the in-site theme.
+const THEME_INIT = `try{var m=localStorage.getItem('aw-mode');if(m!=='light'&&m!=='dark'){m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.mode=m;var t=document.querySelector('meta[name="theme-color"]');if(t)t.setAttribute('content',m==='dark'?'#131315':'#f6f4ef')}catch(e){document.documentElement.dataset.mode='light'}`
 
 export default function RootLayout({
   children,

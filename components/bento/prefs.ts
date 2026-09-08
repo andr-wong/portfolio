@@ -64,6 +64,16 @@ export type Page = 'work' | 'personal';
 
 export const PAGES: readonly Page[] = ['work', 'personal'];
 
+// Same paper colours as :root[data-mode] in app/globals.css. Duplicated
+// (rather than read from a CSS custom property) because this runs on every
+// theme toggle and a synchronous getComputedStyle call would force a style
+// recalc for no benefit — these two values change together anyway.
+const THEME_COLOR: Record<Mode, string> = { light: '#f6f4ef', dark: '#131315' };
+
+function setMetaThemeColor(value: Mode): void {
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[value]);
+}
+
 export const modePref = createPref<Mode>(
   'light',
   // The inline script in layout.tsx has already resolved the stored value (or
@@ -73,6 +83,11 @@ export const modePref = createPref<Mode>(
   (value) => {
     document.documentElement.dataset.mode = value;
     writeStored('aw-mode', value);
+    // Keeps the mobile browser chrome (Android's status bar, iOS Safari's UI
+    // bar) tinted to match — this needs the *resolved* theme, not just
+    // prefers-color-scheme, since the in-site toggle can disagree with the
+    // OS setting.
+    setMetaThemeColor(value);
   }
 );
 
