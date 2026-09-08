@@ -4,6 +4,8 @@ import CaseStudyBar from '@/components/casestudy/CaseStudyBar'
 import CaseStudyPage from '@/components/casestudy/CaseStudyPage'
 import { CASE_STUDIES, CASE_STUDY_SLUGS } from '@/components/casestudy/data'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.com'
+
 export function generateStaticParams() {
   return CASE_STUDY_SLUGS.map((slug) => ({ slug }))
 }
@@ -16,11 +18,19 @@ export async function generateMetadata({
   const { slug } = await params
   const study = CASE_STUDIES[slug]
   if (!study) return {}
+  const title = `${study.name} — Andrew Wong`
+  const url = `${SITE_URL}/work/${slug}`
   return {
-    title: `${study.name} — Andrew Wong`,
+    title,
     description: study.tagline,
-    openGraph: { title: `${study.name} — Andrew Wong`, description: study.tagline },
-    twitter: { card: 'summary', title: `${study.name} — Andrew Wong`, description: study.tagline },
+    // Without this, these pages silently inherit the root layout's
+    // alternates.canonical (the homepage URL) since generateMetadata only
+    // overrides fields it explicitly sets — every case-study page would
+    // claim "/" as its canonical, telling search engines each one is a
+    // duplicate of the homepage rather than a real page worth indexing.
+    alternates: { canonical: url },
+    openGraph: { title, description: study.tagline, url },
+    twitter: { card: 'summary', title, description: study.tagline },
   }
 }
 

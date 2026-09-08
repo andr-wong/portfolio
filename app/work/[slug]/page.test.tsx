@@ -20,6 +20,17 @@ describe('generateMetadata', () => {
     const meta = await generateMetadata({ params: Promise.resolve({ slug: 'nope' }) })
     expect(meta).toEqual({})
   })
+
+  it.each(CASE_STUDY_SLUGS)(
+    'sets its own canonical URL for %s, not the homepage (a real bug this caught: it silently inherited the root layout\'s canonical before this was added)',
+    async (slug) => {
+      const meta = await generateMetadata({ params: Promise.resolve({ slug }) })
+      const canonical = meta.alternates?.canonical?.toString()
+      expect(canonical).toContain(`/work/${slug}`)
+      expect(canonical).not.toBe('https://andrwong.com')
+      expect(meta.openGraph?.url?.toString()).toContain(`/work/${slug}`)
+    }
+  )
 })
 
 describe('WorkCaseStudyPage', () => {
