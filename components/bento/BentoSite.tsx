@@ -156,7 +156,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
       <div className="fig-zero-visual" aria-hidden="true">
         <span className="fig-zero-mark">AW</span>
       </div>
-      <figcaption className="mono">Subject, identifying marks visible &mdash; {city}.</figcaption>
+      <figcaption className="mono">Subject, identifying marks visible in {city}.</figcaption>
     </figure>
   );
 
@@ -184,9 +184,9 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
           <span className="abstract-label mono">Abstract</span>
           <p className="abstract-text">{BENTO.tagline}</p>
           <p className="keywords mono">
-            <span className="kw-label">Keywords &mdash;</span> {keywords}
+            <span className="kw-label">Keywords:</span> {keywords}
           </p>
-          <p className="status-line mono">{BENTO.status} &mdash; under review</p>
+          <p className="status-line mono">{BENTO.status} (under review)</p>
         </section>
 
         <FigureZero city={BENTO.location.city} />
@@ -339,7 +339,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
                   );
                 })}
                 <tr>
-                  <td>This site &mdash; CI</td>
+                  <td>This site (CI)</td>
                   <td className="mono status-cell">
                     <a href={CI_WORKFLOW_URL} target="_blank" rel="noreferrer" className="status-ci-link">
                       {/* eslint-disable-next-line @next/next/no-img-element -- external, live-generated status badge; not a static asset next/image should optimize */}
@@ -397,7 +397,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
           </p>
         </section>
 
-        <footer className="doc-footer mono">p. 1 of 1 &mdash; compiled 2026 &mdash; Andrew Wong</footer>
+        <footer className="doc-footer mono">p. 1 of 1 &middot; compiled 2026 &middot; Andrew Wong</footer>
       </>
     );
   };
@@ -422,7 +422,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
           <span className="abstract-label mono">Abstract</span>
           <p className="abstract-text">{bp.tagline}</p>
           <p className="keywords mono">
-            <span className="kw-label">Keywords &mdash;</span> {keywords}
+            <span className="kw-label">Keywords:</span> {keywords}
           </p>
           <p className="status-line mono">{bp.status}</p>
         </section>
@@ -520,7 +520,7 @@ export default function BentoSite({ variant, page, onOpenContact }: BentoSitePro
           </p>
         </section>
 
-        <footer className="doc-footer mono">p. 1 of 1 &mdash; compiled 2026 &mdash; Andrew Wong</footer>
+        <footer className="doc-footer mono">p. 1 of 1 &middot; compiled 2026 &middot; Andrew Wong</footer>
       </>
     );
   };

@@ -12,7 +12,7 @@ describe('generateStaticParams', () => {
 describe('generateMetadata', () => {
   it('returns the case study title/description for a known slug', async () => {
     const meta = await generateMetadata({ params: Promise.resolve({ slug: 'headcount' }) })
-    expect(meta.title).toBe('Headcount — Andrew Wong')
+    expect(meta.title).toBe('Headcount · Andrew Wong')
     expect(meta.description).toContain('WhatsApp attendance')
   })
 

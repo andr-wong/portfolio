@@ -24,7 +24,7 @@ export async function GET() {
     .map(([year, text]) => {
       const pubDate = new Date(`${year}-01-01T00:00:00Z`).toUTCString()
       return `    <item>
-      <title>${escapeXml(`${year} — ${text}`)}</title>
+      <title>${escapeXml(`${year} · ${text}`)}</title>
       <description>${escapeXml(text)}</description>
       <link>${SITE_URL}</link>
       <guid isPermaLink="false">${SITE_URL}/feed.xml#${year}</guid>
@@ -36,7 +36,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Andrew Wong — Chronology</title>
+    <title>Andrew Wong · Chronology</title>
     <link>${SITE_URL}</link>
     <description>Career and project milestones from andrwong.com.</description>
     <language>en-au</language>

@@ -14,7 +14,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
           </a>
         </p>
         <p className="keywords mono">
-          <span className="kw-label">Stack &mdash;</span> {study.stack.join(', ')}
+          <span className="kw-label">Stack:</span> {study.stack.join(', ')}
         </p>
       </section>
 
@@ -40,7 +40,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
         </a>
       </p>
 
-      <footer className="doc-footer mono">p. 1 of 1 &mdash; compiled 2026 &mdash; Andrew Wong</footer>
+      <footer className="doc-footer mono">p. 1 of 1 &middot; compiled 2026 &middot; Andrew Wong</footer>
     </div>
   );
 }

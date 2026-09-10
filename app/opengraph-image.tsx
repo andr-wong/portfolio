@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { loadAbstractFonts } from './og-fonts'
 
-export const alt = 'Andrew Wong — Software Engineer'
+export const alt = 'Andrew Wong · Software Engineer'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -45,7 +45,7 @@ export default async function Image() {
           }}
         >
           <div style={{ width: 8, height: 8, borderRadius: 999, background: ACCENT, display: 'flex' }} />
-          Open to graduate roles — 2026
+          Open to graduate roles, 2026
         </div>
         <div
           style={{

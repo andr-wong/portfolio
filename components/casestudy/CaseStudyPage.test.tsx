@@ -19,7 +19,7 @@ describe('CaseStudyPage', () => {
     // a heading (from data.ts's sections array) and a second, separately
     // auto-generated heading in the component. Only one heading should ever
     // contain "Stack" — the quick-reference line at the top of the page
-    // ("Stack — Vanilla JS, ...") is a <p>, not a heading, so it doesn't
+    // ("Stack: Vanilla JS, ...") is a <p>, not a heading, so it doesn't
     // count here.
     expect(headings.filter((h) => h.textContent?.includes('Stack'))).toHaveLength(1)
   })

@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { slug } = await params
   const study = CASE_STUDIES[slug]
   if (!study) return {}
-  const title = `${study.name} — Andrew Wong`
+  const title = `${study.name} · Andrew Wong`
   const url = `${SITE_URL}/work/${slug}`
   return {
     title,

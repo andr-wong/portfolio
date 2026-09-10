@@ -22,7 +22,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://andrwong.com'
 
-const TITLE = 'Andrew Wong — Software Engineer'
+const TITLE = 'Andrew Wong · Software Engineer'
 const SHORT_DESCRIPTION =
   'CS student at the University of Adelaide specialising in software engineering and AI.'
 
